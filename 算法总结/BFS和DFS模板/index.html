@@ -148,14 +148,10 @@
 <li>1、如果不需要确定当前遍历到了哪一层，BFS 模板如下。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">while queue 不空：</span><br><span class="line">    cur = queue.pop()</span><br><span class="line">    for 节点 in cur的所有相邻节点：</span><br><span class="line">        if 该节点有效且未访问过：</span><br><span class="line">            queue.push(该节点)</span><br></pre></td></tr></table></figure>
-
 <ul>
 <li>2、如果要确定当前遍历到了哪一层，BFS 模板如下。 这里增加了 level 表示当前遍历到二叉树中的哪一层了，也可以理解为在一个图中，现在已经走了多少步了。size 表示在当前遍历层有多少个元素，也就是队列中的元素数，我们把这些元素一次性遍历完，即把当前层的所有元素都向外走了一步。</li>
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">level = 0</span><br><span class="line">while queue 不空：</span><br><span class="line">    size = queue.size()</span><br><span class="line">    while (size --) &#123;</span><br><span class="line">        cur = queue.pop()</span><br><span class="line">        for 节点 in cur的所有相邻节点：</span><br><span class="line">            if 该节点有效且未被访问过：</span><br><span class="line">                queue.push(该节点)</span><br><span class="line">    &#125;</span><br><span class="line">    level ++;</span><br></pre></td></tr></table></figure>
-
-
-
 <p><strong>DFS模板（回溯）</strong></p>
 <ul>
 <li>1、最本质的法宝是“画图”，千万不能偷懒，拿纸和笔“画图”能帮助我们更好地分析递归结构，这个“递归结构”一般是“树形结构”，而符合题意的解正是在这个“树形结构”上进行一次“深度优先遍历”，这个过程有一个形象的名字，叫“搜索”；我们写代码也几乎是“看图写代码”，所以“画树形图”很重要。</li>
