@@ -1,0 +1,248 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer | sevenboy</title><meta name="keywords" content="人工只能,计算机视觉,paper,ICCV"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是自己在研究生阶段读的第二篇顶会论文，记录一下">
+<meta property="og:type" content="article">
+<meta property="og:title" content="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/paper/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是自己在研究生阶段读的第二篇顶会论文，记录一下">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg">
+<meta property="article:published_time" content="2021-11-08T15:33:27.428Z">
+<meta property="article:modified_time" content="2021-11-08T15:45:37.762Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="paper_of_ICCV">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/paper/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2021-11-08 23:45:37'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">13</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-11-08T15:33:27.428Z" title="发表于 2021-11-08 23:33:27">2021-11-08</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-11-08T15:45:37.762Z" title="更新于 2021-11-08 23:45:37">2021-11-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/paper/">paper</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.2k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Simpler-is-Better-Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer"><a href="#Simpler-is-Better-Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer" class="headerlink" title="Simpler is Better: Few-shot Semantic Segmentation with Classifier Weight Transformer"></a>Simpler is Better: Few-shot Semantic Segmentation with Classifier Weight Transformer</h2><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/1.jpg" alt=""></p>
+<ul>
+<li>代码：<a target="_blank" rel="noopener" href="https://github.com/zhiheLu/CWT-for-FSS">https://github.com/zhiheLu/CWT-for-FSS</a></li>
+<li>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2108.03032">https://arxiv.org/abs/2108.03032</a></li>
+</ul>
+<h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><p>得益于大型的标签数据和深度学习算法的发展，语义分割方法近几年取得了很大的进步。但这些方法有两个局限：</p>
+<p><strong>1）过度依赖带标签数据，而这些数据的获得通常消耗大量人力物力；</strong></p>
+<p><strong>2）训练好的模型并不能处理训练过程中未见的新类别。</strong></p>
+<p>面对这些局限，小样本语义分割被提出来，它的目的是通过对少量样本的学习来分割新类别。一般来说，小样本语义分割方法是通过用训练数据模拟测试环境进行元学习使得训练的模型有很好的泛化能力，从而在测试时可以仅仅利用几个样本的信息来迭代模型完成对新类别的分割。具体地，小样本分割模型是在大量的模拟任务上进行训练，每个模拟任务有两个数据组：Support set and Query set。Support set 是有标签的K-shot样本，而Query set只在训练的时候有标签。这样的模拟任务可以有效地模拟测试环境</p>
+<ul>
+<li>针对元学习的概念，可以参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/289043310">https://zhuanlan.zhihu.com/p/289043310</a></li>
+<li>针对小样本学习的一些概念，可以参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/84290146">https://zhuanlan.zhihu.com/p/84290146</a></li>
+</ul>
+<h3 id="Methods-and-Creativity"><a href="#Methods-and-Creativity" class="headerlink" title="Methods and Creativity"></a>Methods and Creativity</h3><p>一个<strong>小样本分类系统</strong>一般由三部分构成：<strong>编码器，解码器和分类器</strong>。其中，前两个模块模型比较复杂，最后一个分类器结构简单。我们发现现存的小样本分类方法通常在<strong>元学习</strong>的过程中更新所有模块或者除编码器外的模块，而所利用更新模块的数据仅仅有几个样本。在这样的情况下，我们认为模型更新的参数量相比于数据提供的信息量过多，从而不足以优化模型参数。基于此分析，我们提出了一个全新的元学习训练范式，即只对分类器进行元学习。为了方便读者更好的理解，论文给出了两种方法的对比，如下图，图(a)为传统方法，要训练三个模块，图(b)为本文方法，编码器解码器在经过大量有标记数据训练后便冻结，只调整分类器权重</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/2.jpg" alt=""></p>
+<p>具体地，我们采用常规的分割方法对编码器和解码器进行训练，训练后在元学习的过程中不在更新。这是基于我们的假设：在大量标签数据训练下的模型可以提取有辨别性的特征，对一些新类别也有效，这也可以解释很多方法直接使用ImageNet预训练的模型进行特征提取。在分析数据的时候，我们发现Support set和Query set的数据有时有较大的类内差异，如下图。同样的类别，不同的角度即可产生很大的区别。这就使得利用Support set迭代的模型不能很好地作用在Query set上。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/3.jpg" alt=""></p>
+<p>为了解决这个问题，我们提出了<strong>Classifier Weight Transformer</strong>来动态地利用Query set的特征信息来进一步更新分类器模块，从而提升分割任务性能。一个少镜头分割模型通常由三个模块组成：编码器、解码器和分类器。为了学习适应新类别，现有方法通常在编码器在 ImageNet 上进行预训练后对整个模型进行元学习 [23]。在情节训练阶段，模型的所有三个部分都是元学习的。训练后，给定一个带有带注释的支持集图像和用于测试的查询图像的新类，该模型有望使所有三个部分都适应新类。由于只有很少的带注释的支持集图像和复杂且相互关联的三部分，这种适应通常是次优的。为了克服这些限制，我们提出了一个分两个阶段的简单而有效的训练范式。在第一阶段，我们通过监督学习对编码器和解码器进行预训练，以获得更强的特征表示。在第二阶段，连同冻结的编码器和解码器，我们仅对分类器进行元训练。这是因为我们认为预训练的特征表示部分（即编码器和解码器）足以泛化到任何看不见的类别；因此，少样本语义分割的关键在于调整二元分类器（分离前景和背景像素），而不是从少样本样本中调整整个模型。我们方法的概述如下图所示。具体的算法参考原文。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/4.jpg" alt=""></p>
+<p>者假设，一个学习了大量图片和信息的传统分割网络已经能够从任何一张图片中捕捉到充分的，有利于区分背景和前景的信息，无论训练时是否遇到了同类的图。那么面对少样本的新类时，只要对分类器进行元学习即可。 对于分类器的学习，作者提出了一种分类器权重转移方法CWT，根据每一张查询集图象，临时调整分类器参数。借助Transformer的思想，作者将分类器权重转化为Query，将图象提取出来的特征转化为Key和Value，然后根据这三个值调整分类器权重，最后通过残差连接，与原分类器参数求和     </p>
+<p>本文提出的元学习名为episodic training。一般来说，本文提出的元学习针对是小样本的类进行学习。元学习分两步</p>
+<ul>
+<li>第一步是内循环，和预训练一样，根据支持集上的图片和mask进行训练，不过只修改分类器参数。文中指出，当新类样本数够大时，只使用外循环，即只更新分类器，就能匹敌SOTA，但是当面对小样本时，表现就不尽如人意。</li>
+<li>第二步是外循环，根据每一副查询图片，微调分类器参数，而且微调后的参数只针对这一张查询图片，不能用于其他查询图象，也不覆盖修改原分类器参数。</li>
+</ul>
+<h3 id="contributions"><a href="#contributions" class="headerlink" title="contributions"></a>contributions</h3><ul>
+<li>We propose a novel model training paradigm for few-shot semantic  segmentation. Instead of meta-learning the whole, complex segmentation model, we  focus on the simplest classifier part to make new-class adaptation more  tractable. </li>
+<li>We introduce a novel meta-learning algorithm that leverages a  Classifier Weight Transformer (CWT) for adapting dynamically the classifier  weights to every query sample.</li>
+<li>Extensive experiments with two popular  backbones (ResNet-50 and ResNet-101) show that the proposed methodyieldsa  newstate-of-the-artperformance, often surpassing existing alternatives,  especially on 5-shot case, by a large margin. Further, under a more challenging  yet practical cross-domain setting, the margin becomes even bigger.</li>
+</ul>
+<h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><ul>
+<li>在两个标准小样本分割数据集PASCAL和COCO上，我们的方法在大多数情况下取得了最优的结果</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/5.jpg" alt=""></p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/6.jpg" alt=""></p>
+<ul>
+<li>跨数据集的情景下测试了我们模型的性能，可以看出我们的方法展示了很好的鲁棒性</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/7.jpg" alt=""></p>
+<ul>
+<li>可视化结果</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/7.jpg" alt=""></p>
+<ul>
+<li>还有较多的 Ablation experiments，以验证参数选择的有效性。具体的可以查看论文详细内容</li>
+</ul>
+<h3 id="Rethingking"><a href="#Rethingking" class="headerlink" title="Rethingking"></a>Rethingking</h3><p>提出了一种新的元学习训练范式来解决小样本语义分割问题。相比于现有的方法，这种方法更加简洁有效，只对分类器进行元学习。为了解决类内差异问题，我们提出<strong>Classifier Weight Transformer</strong>来利用Query特征信息来迭代分类器，从而获得更加鲁棒的分割效果。通过大量的实验，我们证明了方法的有效性。针对我们现在的创新点，找到存在的问题，采取简便的方法提升性能未必不是一个新的思路，就拿现在这个而言，并没有对编码器-解码-分类器三个进行元学习，而是只针对其中最简单的分类器进行创新，也采纳了transformer，也算是transformer的一个应用把。果然现在在cv领域transformer大放异彩，针对这种思想，之前也看过类似输入网络的图像大小对性能的影响，也看过动态预测调整输入图片大小的预测，也是一种思路，所以咋创新方面不用单单停留在网络的结构上，而是应该放在整体的架构的，因为任何一处的改变都可能对最后的分割性能产生不一样的影响。道阻且长，望君继续努力。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/paper/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/paper/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/paper-of-ICCV/">paper_of_ICCV</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/paper/SOTR-Segmenting-Objects-with-Transformers/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/paper/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div><div><a href="/人工只能/常用概念/常用激活函数（激励函数）理解和总结/" title="常用激活函数（激励函数）理解和总结"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210824/17.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-25</div><div class="title">常用激活函数（激励函数）理解和总结</div></div></a></div><div><a href="/人工只能/计算机视觉/神经网络的来龙去脉/" title="神经网络的来龙去脉"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210812/src=http___pic4.zhimg.com_v2-adb83525bc91ed30985d7161612f91b7_b.jpg&refer=http___pic4.zhimg.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-14</div><div class="title">神经网络的来龙去脉</div></div></a></div><div><a href="/人工只能/计算机视觉/计算机视觉的基本知识介绍/" title="计算机视觉的基本知识介绍"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210828/14.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-28</div><div class="title">计算机视觉的基本知识介绍</div></div></a></div><div><a href="/人工只能/计算机视觉/浅析UNet/" title="浅析UNet"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210924/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-26</div><div class="title">浅析UNet</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Simpler-is-Better-Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer"><span class="toc-number">1.</span> <span class="toc-text">Simpler is Better: Few-shot Semantic Segmentation with Classifier Weight Transformer</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#introduction"><span class="toc-number">1.1.</span> <span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methods-and-Creativity"><span class="toc-number">1.2.</span> <span class="toc-text">Methods and Creativity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contributions"><span class="toc-number">1.3.</span> <span class="toc-text">contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Experiments"><span class="toc-number">1.4.</span> <span class="toc-text">Experiments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rethingking"><span class="toc-number">1.5.</span> <span class="toc-text">Rethingking</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
