@@ -1,0 +1,297 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers | sevenboy</title><meta name="keywords" content="人工只能,计算机视觉,paper,ICCV"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是自己在研究生阶段读的一篇顶会论文，记录一下.主要是将transformer应用在Semantic Segmentation">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是自己在研究生阶段读的一篇顶会论文，记录一下.主要是将transformer应用在Semantic Segmentation">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg">
+<meta property="article:published_time" content="2021-12-03T02:50:23.000Z">
+<meta property="article:modified_time" content="2021-12-03T03:00:05.119Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="Semantic Segmentation(CVPR)">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2021-12-03 11:00:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">16</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2021-12-03T02:50:23.000Z" title="发表于 2021-12-03 10:50:23">2021-12-03</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2021-12-03T03:00:05.119Z" title="更新于 2021-12-03 11:00:05">2021-12-03</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-CVPR/">papers(CVPR)</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">2.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers"><a href="#Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers" class="headerlink" title="Rethinking Semantic Segmentation from a Sequence-to-Sequence Perspective with  Transformers"></a>Rethinking Semantic Segmentation from a Sequence-to-Sequence Perspective with  Transformers</h2><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/1.jpg" alt=""></p>
+<ul>
+<li>代码：<a target="_blank" rel="noopener" href="https://github.com/fudan-zvg/SETR">https://github.com/fudan-zvg/SETR</a></li>
+<li>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2012.15840">https://arxiv.org/abs/2012.15840</a></li>
+</ul>
+<h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><p>最新的语义分割方法采用具有编码器-解码器体系结构的全卷积网络（FCN）。编码器逐渐降低空间分辨率，并通过更大的感受野学习更多的抽象/语义视觉概念。由于上下文建模对于分割至关重要，因此最新的工作集中在通过扩张/空洞卷积或插入注意力模块来增加感受野。但是，基于编码器-解码器的FCN体系结构保持不变。</p>
+<p>在本文中，我们旨在通过将语义分割视为序列到序列的预测任务来提供替代视角。具体来说，我们部署一个纯 transformer（即，不进行卷积和分辨率降低）将图像编码为一系列patch。通过在 transformer的每一层中建模全局上下文，此编码器可以与简单的解码器组合以提供功能强大的分割模型，称为SEgmentation TRansformer（SETR）。</p>
+<p><strong>一个标准的FCN分割模型有一个编码器-解码器结构：编码器用于特征表示学习，而解码器用于编码器产生的特征表示的像素级分</strong>类。编码器由堆叠的卷积层组成，特征图的分辨率逐渐降低，编码器能够以逐渐增加的感受野学习更多的抽象/语义视觉概念。<br><strong>优点</strong>：translation equivariance：尊重了成像过程的本质，支持了模型对看不见的图像数据的泛化能力<br><strong>局部性</strong>：通过跨空间共享参数来控制模型的复杂性。<br><strong>缺点</strong>：感受野有限，难以学习无约束场景图像中的语义分割的长期依赖信息。<br><strong>解决方法：</strong><br>直接操作卷积运算：大内核尺寸（large kernel sizes），atrous卷积和图像/特征金字塔。<br>注意力模块集成到FCN架构中：对特征图中所有像素的全局交互进行建模。当应用于语义分割时，通常是是将注意力模块与位于顶部的注意力层结合到FCN架构中。不改变FCN模型结构的本质：<strong>编码器下采样输入的空间分辨率，用于区分语义类别的低分辨率特征映射；解码器将特征表示上采样为全分辨率分割映射</strong>。<br>本文中，我们用纯transformer 取代空间分辨率逐渐降低的基于堆叠卷积层的编码器，这种编码器将输入图像视为由学习到的面片嵌入表示的图像面片序列，并使用全局自关注建模对该序列进行转换，以进行有区别的特征表示学习。</p>
+<h3 id="Methods-and-Creativity"><a href="#Methods-and-Creativity" class="headerlink" title="Methods and Creativity"></a>Methods and Creativity</h3><ul>
+<li><p>问题</p>
+<p>典型的语义分割Encoder-Decoder结构以多次下采样损失空间分辨率为代价来抽取局部/全局特征。网络Layer一旦固定,每一层的感受野是受限的,因此要获得更大范围的语义信息,理论上需要更大的感受野即更深的网络结构。</p>
+<p>如何既能够抽取<strong>全局的语义信息,</strong>又能尽量<strong>不损失分辨率,</strong>一直是语义分割的<strong>难点</strong></p>
+</li>
+<li><p>解决方法</p>
+<ul>
+<li>用常用于NLP领域的transformer作为Encoder来抽取全局的语义信息(整个过程不损失image分辨率),代替传统FCN的编码部分,从序列-序列学习的角度,为语义分割问题提供了一种新的视角；</li>
+<li>将图像序列化处理,利用Transformer框架、完全用注意力机制来实现Encoder的功能；</li>
+<li>提出三种复杂度不同的Decoder结构</li>
+</ul>
+</li>
+<li><p>整体网络架构</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg" alt=""></p>
+</li>
+<li><p><strong>part 1：图像序列化处理</strong></p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/5.jpg" alt=""></p>
+</li>
+</ul>
+<p>image to sequenc，因为NLP中transformation的输入是一维序列,所以需要把图像(H <em> W </em> C)转换成 1D序列。<br>1）： 按pixel-wise进行flatten。考虑到计算量问题所以此方法不通。<br>2）： 按patch-wise进行flatten。本文采用此方法。</p>
+<p>1、输入图像的大小 H <em> W </em> 3（256 <em> 256 </em> 3）的大小，patch_size = 16 <em> 16，因此图像序列化为 256/16 </em> 256 /16 = 256个 （16 <em> 16 </em> 3）的图片大小</p>
+<p>2、向量化后的patch<code>p_i</code>经过<code>Linear Projection</code>function得到向量<code>e_i</code> ，旁边注释<code>e_i</code>是patch embedding,<code>p_i</code>是position embedding。</p>
+<ul>
+<li><strong>part 2：Transformer</strong></li>
+</ul>
+<p>这边采用的是纯 Transformer 的encoder结构，只不过中间重复叠用了24次，具体的使用可以查看 PIT， PVT，Swin Transformer 的总结文档。</p>
+<ul>
+<li><p><strong>part3 Decoder</strong></p>
+<p>本文就提出了三种不一样的 decoder 的设计，分别如下</p>
+<ul>
+<li><p>Navite Upsampling（Naive）</p>
+<p>2-layer：（1 <em> 1）conv  +  sync batch norm（w/ReLU）+ （1 </em> 1）conv</p>
+<p>将Transformer输出的特征维度降到分类类别数后经过双线性上采样恢复原分辨率</p>
+</li>
+<li><p>Progressive UPsampling (PUP）</p>
+<p>交替使用卷积层和两倍上采样操作，为了从<code>H/16 × W/16 × 1024</code> 恢复到<code>H × W × 19</code>(19是cityscape的类别数) 需要4次操作,以恢复到原分辨率。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/6.jpg" alt=""></p>
+</li>
+<li><p>Multi-Level feature Aggregation (MLA)</p>
+<p>首先将Transformer的输出<code>&#123;Z1,Z2,Z3…ZLe&#125;</code>均匀分成M等份,每份取一个特征向量。如下图,24个transformer的输出均分成4份,每份取最后一个,即<code>&#123;Z6,Z12,Z18,Z24&#125;</code> .后面的Decoder只处理这些取出的向量。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/7.jpg" alt=""></p>
+</li>
+</ul>
+<p>具体步骤：</p>
+<p>1.2D —&gt; 3D。将<code>ZL</code> 从2D <code>(H × W)/256 × C</code>恢复到3D <code>H/16 × W/16 × C</code></p>
+<p>2.经过3-layer的卷积<code>1 × 1, 3 × 3, and 3 × 3</code></p>
+<p>3.双线性上采样<code>4×</code></p>
+<p>4.自上而下的融合。以增强<code>Zl</code> 之间的相互联系,如上图最后一个<code>Zl</code>理论上拥有全部上面三个feature的信息,融合即cat</p>
+<p>5.<code>3 × 3</code></p>
+<p>6.双线性插值<code>4×</code> 恢复至原分辨率。</p>
+</li>
+<li><p><strong>损失函数设计</strong></p>
+<p>totalloss = auxiliary loss + main loss</p>
+<p>其中main loss为<code>CrossEntropyLoss</code> ,auxiliary loss在17年CVPR有提及</p>
+</li>
+</ul>
+<h3 id="contributions"><a href="#contributions" class="headerlink" title="contributions"></a>contributions</h3><ul>
+<li>We reformulate the image semantic segmentation problem from a sequence-to-sequence learning perspective, offering an alternative to the dominating encoder-decoder FCN model design.</li>
+<li>As an instantiation, we exploit the transformer framework to implement our fully attentive feature representation encoder by sequentializing images.</li>
+<li>To extensively examine the self-attentive feature presentations, we further introduce three different decoder designs with varying complexities. Extensive experiments show that our SETR models can learn superior feature representations as compared to different FCNs with and without attention modules, yielding new state of the art on ADE20K (50.28%), Pascal Context (55.83%) and competitive results on Cityscapes. Particularly, our entry is ranked the 1stplace in the highly competitive ADE20K test server leaderboard.</li>
+</ul>
+<h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><ul>
+<li>在Cityscapes/ADE20K/PASCAL Context三个数据集上进行了实验。实验结果优于用传统FCN(with &amp; without attention module)抽特征的方法</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/4.jpg" alt=""></p>
+<ul>
+<li>可视化结果</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/3.jpg" alt=""></p>
+<ul>
+<li>还有较多的 Ablation experiments，以验证参数选择的有效性。具体的可以查看论文详细内容</li>
+</ul>
+<h3 id="Rethingking"><a href="#Rethingking" class="headerlink" title="Rethingking"></a>Rethingking</h3><ul>
+<li>卷积操作的感受野有限是传统FCN体系结构的一个内在限制。为突破该限制，逐渐提出两类方法<ul>
+<li>改变卷积：包括增大卷积核kernel_size、Non-local(跟本文有点像，每次抽取的都是全局特征)和特征金字塔。例如DeepLab引入空洞卷积/SPP/ASPP。</li>
+<li>将注意力模块集成到FCN体系结构中：一次对所有像素的全局信息抽取特征。例如PSANet提出点向空间注意模块、DANet嵌入channel attention和spatial attention。</li>
+</ul>
+</li>
+<li>有人提到，本文是把ViT模型原封不动迁移过来了，替换了encoder，虽带来了精度的提升但模型的计算量和参数量都非常大。</li>
+</ul>
+<blockquote>
+<p>ViT(Vision Transformer)首次证明了纯基于transformer的图像分类模型可以达到sota。</p>
+</blockquote>
+<ul>
+<li>CNN是通过不断地堆积卷积层来完成对图像从局部信息到全局信息的提取,不断堆积的卷积层慢慢地扩大了感受野直至覆盖整个图像;但是transformer并不假定从局部信息开始,而且一开始就可以拿到全局信息,学习难度更大一些,但transformer学习长依赖的能力更强。</li>
+<li>CNN结构更适合底层特征,Transformer更匹配高层语义。二者无绝对差别,就是看问题的尺度差异,本质都是消息传递。</li>
+<li>现在对transformer理解还不充分,为啥Transformer之后没有改变分辨率,还要用Decoder来恢复原image的分辨率(得看看transformer那篇论文,或者评论区有好心人解答一下嘛)。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/Semantic-Segmentation-CVPR/">Semantic Segmentation(CVPR)</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/常用概念/常用激活函数（激励函数）理解和总结/" title="常用激活函数（激励函数）理解和总结"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210824/17.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-25</div><div class="title">常用激活函数（激励函数）理解和总结</div></div></a></div><div><a href="/人工只能/计算机视觉/神经网络的来龙去脉/" title="神经网络的来龙去脉"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210812/src=http___pic4.zhimg.com_v2-adb83525bc91ed30985d7161612f91b7_b.jpg&refer=http___pic4.zhimg.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-14</div><div class="title">神经网络的来龙去脉</div></div></a></div><div><a href="/人工只能/计算机视觉/计算机视觉的基本知识介绍/" title="计算机视觉的基本知识介绍"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210828/14.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-28</div><div class="title">计算机视觉的基本知识介绍</div></div></a></div><div><a href="/人工只能/计算机视觉/浅析UNet/" title="浅析UNet"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210924/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-26</div><div class="title">浅析UNet</div></div></a></div><div><a href="/人工只能/papers-ICCV/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div><div><a href="/人工只能/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/" title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-08</div><div class="title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers"><span class="toc-number">1.</span> <span class="toc-text">Rethinking Semantic Segmentation from a Sequence-to-Sequence Perspective with  Transformers</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#introduction"><span class="toc-number">1.1.</span> <span class="toc-text">introduction</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Methods-and-Creativity"><span class="toc-number">1.2.</span> <span class="toc-text">Methods and Creativity</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#contributions"><span class="toc-number">1.3.</span> <span class="toc-text">contributions</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Experiments"><span class="toc-number">1.4.</span> <span class="toc-text">Experiments</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Rethingking"><span class="toc-number">1.5.</span> <span class="toc-text">Rethingking</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
