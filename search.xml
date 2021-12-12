@@ -35,6 +35,37 @@
     
     
     <entry>
+      <title>TransFuse:Fusing_Transformers_and_CNNs_for_Medical_Image_Segmentation</title>
+      <link href="%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers/TransFuse-Fusing-Transformers-and-CNNs-for-Medical-Image-Segmentation/"/>
+      <url>%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers/TransFuse-Fusing-Transformers-and-CNNs-for-Medical-Image-Segmentation/</url>
+      
+        <content type="html"><![CDATA[<h2 id="TransFuse-Fusing-Transformers-and-CNNs-for-Medical-Image-Segmentation"><a href="#TransFuse-Fusing-Transformers-and-CNNs-for-Medical-Image-Segmentation" class="headerlink" title="TransFuse: Fusing Transformers and CNNs for Medical Image Segmentation"></a>TransFuse: Fusing Transformers and CNNs for Medical Image Segmentation</h2><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211212/1.jpg" alt=""></p><ul><li>代码：<a href="https://github.com/Rayicer/TransFuse">https://github.com/Rayicer/TransFuse</a></li><li>论文：<a href="https://arxiv.org/abs/2102.08005">https://arxiv.org/abs/2102.08005</a></li></ul><h3 id="introduction"><a href="#introduction" class="headerlink" title="introduction"></a>introduction</h3><p>传统CNN网络很难捕获长距离的依赖关系，而且一味的加深网络的深度会带来大量的计算冗余。</p><p>文章提出了一种并行分支的TransFuse网络，<strong>结合transformer和CNN两种网络架构，能同时捕获全局依赖关系和低水平的空间细节</strong>，文中还提出了一种BiFusion module用来混合两个分支所提取的图像特征。使用TransFuse，可以以较浅的方式有效地捕获全局依赖性和low-level空间细节</p><ul><li>transformer：good at modeling global context，<strong>but</strong> lack of spatial inductive-bias in modelling local information and limitations in capturing fine-grained details</li><li>CNN：low-level spatial details can be efficiently captured <strong>but</strong> lack of efficiency in capturing global context information</li></ul><p>TransFuse在多个医学分割任务中达到SOTA，并在降低参数和提高推理速度方面得到很大的提升。</p><ul><li><strong>advantage：</strong>firstly, by leveraging the merits of CNNs and Transformers, we argue that  TransFuse can capture global information without building very deep nets while  preserving sensitivity on low-level context; secondly, our proposed BiFusion  module may simultaneously exploit different characteristics of CNNs and  Transformers during feature extraction, thus making the fused representation  powerful and compact.</li></ul><h3 id="Methods-and-Creativity"><a href="#Methods-and-Creativity" class="headerlink" title="Methods and Creativity"></a>Methods and Creativity</h3><ul><li><p><strong>整体网络架构</strong>，TransFuse包含两个分支，左边是transformer分支，右边是CNN分支，模型通过BiFusion层整合两个分支的特征，然偶经过上采样和attention-gated skip-connection输出分割结果</p><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211212/2.jpg" alt=""></p></li><li><p><strong>Transformer Branch</strong><br>Transformer Branch是一个完整的编解码结构，编码器部分使用的是transformer结构，解码器部分使用的是SERT中提到的渐进上采样（PUP）结构。</p></li><li><p><strong>CNN Branch</strong><br>CNN Branch使用ResNet的第四层，第三层和第二层的输出作为这一分支的输出，由于transformer可以捕获全局的上下文信息，故而CNN Branch并不需要设计的很深 。</p></li><li><p><strong>BiFusion Module</strong><br>BiFusion Module主要由通道注意力和空间注意力组成，对Transformer Branch做通道注意力，对CNN Branch做空间注意力。然后经过卷积，相乘，拼接，残差操作，实现两个分支的特征融合。</p><ul><li><p>通道注意力</p><p>特征的每一个通道都代表着一个专门的检测器，因此，通道注意力是关注什么样的特征是有意义的。为了汇总空间特征，作者采用了全局平均池化和最大池化两种方式来分别利用不同的信息。<strong>通道注意力聚焦在“什么”是有意义的输入图像</strong></p></li><li><p>空间注意力</p><p>空间注意力模块来关注哪里的特征是有意义的，<strong>空间注意力聚焦在“哪里”是最具信息量的部分</strong>，这是对通道注意力的补充。为了计算空间注意力，沿着通道轴应用平均池化和最大池操作，然后将它们连接起来生成一个有效的特征描述符</p></li><li><p>通道注意力和空间注意力详细请看 代表性论文 <strong>CBAM: Convolutional Block Attention Module</strong></p></li></ul></li><li><p>最后通过上采样和attention-gated skip-connection输出分割结果。</p></li></ul><h3 id="Experiments"><a href="#Experiments" class="headerlink" title="Experiments"></a>Experiments</h3><ul><li><p>本文采用四个数据集进行验证，分别是，Polyp Segmentation，Skin Lesion Segmentation， Hip Segmentation，Prostate Segmentation</p></li><li><p>定量结果</p></li></ul><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211212/4.jpg" alt=""></p><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211212/5.jpg" alt=""></p><ul><li>可视化结果</li></ul><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211212/3.jpg" alt=""></p><ul><li>还有较多的 Ablation experiments，以验证参数选择的有效性。具体的可以查看论文详细内容</li></ul><h3 id="Rethingking"><a href="#Rethingking" class="headerlink" title="Rethingking"></a>Rethingking</h3><p>文章使用transformer结构捕捉图像的全局上下文信息，并利用这一优点减小CNN结构的层数，只是用很少的卷积层提取局部空间信息作为transformer的补充，并通过BiFusion进行特征融合，最后通过Attention-gate，上采样输出分割结果。文中一共出现四种注意力机制。</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 人工只能 </category>
+          
+          <category> papers </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 人工只能 </tag>
+            
+            <tag> 计算机视觉 </tag>
+            
+            <tag> Semantic Segmentation </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</title>
       <link href="%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/"/>
       <url>%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/</url>
