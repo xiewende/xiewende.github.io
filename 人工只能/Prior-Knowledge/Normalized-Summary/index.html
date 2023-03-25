@@ -1,0 +1,331 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Normalized_Summary | sevenboy</title><meta name="keywords" content="Batch Normalization,Layer Normalization,Instance Normalization,Group Normalization,Switchable Normalization,Weight Normalization"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是一篇深度学习中的常用归一化的方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Normalized_Summary">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Normalized-Summary/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是一篇深度学习中的常用归一化的方法">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/head.jpg">
+<meta property="article:published_time" content="2023-03-25T02:42:06.000Z">
+<meta property="article:modified_time" content="2023-03-25T03:37:15.191Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="Normalization">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/head.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Normalized-Summary/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Normalized_Summary',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-03-25 11:37:15'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">18</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">20</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/head.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Normalized_Summary</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-25T02:42:06.000Z" title="发表于 2023-03-25 10:42:06">2023-03-25</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-25T03:37:15.191Z" title="更新于 2023-03-25 11:37:15">2023-03-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/">Prior Knowledge</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.3k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>15分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Normalized_Summary"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="归一化总结-Normalization"><a href="#归一化总结-Normalization" class="headerlink" title="归一化总结(Normalization)"></a>归一化总结(Normalization)</h3><p>神经网络的学习的本质就是学习数据的分布，使模型收敛，得到学习数据的特性。如果没有对数据进行<strong>归一化处理</strong>，那么<strong>每一批次训练的数据的分布就有可能不一样</strong>。从大的方面来讲，神经网络需要在多个分布中找到一个合适的平衡点；从小的方面来说，由于每层网络的输入数据在不断的变化，这会导致不容易找到合适的平衡点，最终使得构建的神经网络模型不容易收敛。当然，如果只是对输入数据做归一化，这样只能保证数据在输入层是一致的，并不能保证每层网络的输入数据分布是一致的，所以在神经网络模型的<strong>中间层也需要加入归一化处理</strong>。利用随机梯度下降更新参数时，每次参数更新都会导致网络中间每一层的输入的分布发生改变。<strong>越深的层，其输入分布会改变的越明显</strong>。</p>
+<p>内部协变量偏移(<strong>Internal Covariate Shift</strong>):也就是<strong>在训练过程中，隐层的输入分布老是变来变去</strong>， 每一层的参数在更新过程中，会改变下一层输入的分布，神经网络层数越多，变现的越明显。为了解决内部协变量偏移问题，这就要使得每一个神经网络层的输入的分布在训练过程保持一致。</p>
+<h4 id="批量归一化-Batch-Normalization-BN"><a href="#批量归一化-Batch-Normalization-BN" class="headerlink" title="批量归一化(Batch Normalization, BN)"></a>批量归一化(Batch Normalization, BN)</h4><h5 id="为什么需要BN"><a href="#为什么需要BN" class="headerlink" title="为什么需要BN?"></a>为什么需要BN?</h5><p>在深层网络中的训练中，由于反向传播算法，<strong>模型的参数</strong>在发生指数型变化(因为是<strong>链式传播</strong>)，从而导致每一层的输入分布会发生剧烈变化，这就会引起两个问题：</p>
+<ul>
+<li><p>网络需要不断调整来适应输入数据分布的变化，导致网络学习速度的降低</p>
+</li>
+<li><p>网络的训练过程容易陷入梯度饱和区，减缓网络收敛速度，训练不稳定。</p>
+</li>
+<li><p>什么是梯度饱和区？</p>
+<p>当我们在神经网络中采用饱和激活函数（saturated activation function）时，例如sigmoid，tanh激活函数，很容易使得模型训练陷入梯度饱和区，此时梯度会变得很小接近于0，从而导致网络收敛很慢。有两种解决方法：</p>
+<ol>
+<li><p>线性整流函数ReLU可以在一定程度上解决训练进入梯度饱和区的问题。</p>
+</li>
+<li><p>我们可以让激活函数的输入分布保持在一个稳定的状态来尽可能避免他们陷入梯度饱和区，这就是BN的想法。</p>
+</li>
+</ol>
+</li>
+</ul>
+<h5 id="解决上述问题"><a href="#解决上述问题" class="headerlink" title="解决上述问题"></a>解决上述问题</h5><ul>
+<li>固定网络每一层<strong>输入值的分布</strong>来缓解这两个问题。比如归一化到标准正态分布。</li>
+</ul>
+<h5 id="BN基本原理和公式"><a href="#BN基本原理和公式" class="headerlink" title="BN基本原理和公式"></a>BN基本原理和公式</h5><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/1.png" style="zoom:80%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/2.png" style="zoom:80%;" /></p>
+<ul>
+<li>$\gamma $ 和 $\beta $ : 是两个可训练参数，主要是在一定程度上恢复数据本身的表达能力，对规范化后的数据进行线性处理。</li>
+</ul>
+<h5 id="BN的计算"><a href="#BN的计算" class="headerlink" title="BN的计算"></a>BN的计算</h5><p>选择 torch.nn.BatchNorm2d为例子，给定特征图 【N, H, W, C】，其中N是batch_size, HW特征图的宽高，C是通道数，那么上面公式的B就是下图【N,C,HW】中的蓝色部分：保留通道 C 计算均值和方差。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/3.jpg" style="zoom:80%;" /></p>
+<ul>
+<li><p>也就是说 <strong>BN是对不同样本里面的同一个特征通道进行归一化处理，逐特征维度归一化</strong>，可训练参数 $\gamma $ 和 $\beta $  的维度是 C。保留通道C计算均值和方差，故有2C个可训练参数（C个 $\gamma $ 和C个 $\beta $  ），2C个不可训练参数（均值mean和方差var）。</p>
+</li>
+<li><p><strong>BN训练时的均值和方差</strong>：<strong>该批次</strong>内数据相应维度的均值与方差</p>
+</li>
+<li><p><strong>BN测试时的均值和方差</strong>：<strong>基于所有批次</strong>的期望(无偏估计)计算所得，训练阶段根据 mini-batch 的数据计算均值和方差，并使用滑动平均法计算<strong>全局均值和方差</strong>；推理阶段使用训练阶段计算的全局均值和方差参与计算。</p>
+</li>
+<li><p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># torch版本</span><br><span class="line">def BatchNorm(x, gamma, beta, eps=1e-5): </span><br><span class="line">    # x: input shape [N, C, H, W] </span><br><span class="line">    N, C, H, W = x.shape </span><br><span class="line">    mean = torch.mean(input=x, dim=[0,2,3], keepdim=True) </span><br><span class="line">    var = torch.var(input=x, dim=[0,2,3], keepdim=True) </span><br><span class="line">    # mean, var shape : [1, C, 1, 1] </span><br><span class="line">    x = (x - mean) / torch.sqrt(var + eps) </span><br><span class="line">    return x * gamma + beta</span><br><span class="line"></span><br><span class="line"># numpy版本 更对(两个可学习的参数)</span><br><span class="line">def batch_normalize2d(x, alpha=1.0, beta=0.0, eps=1e-5):</span><br><span class="line">	# x: input shape [N, C, H, W] </span><br><span class="line">    mean = np.mean(x, axis=(0, 2, 3), keepdims=True)  # [1, C, 1, 1]</span><br><span class="line">    variance = np.var(x, axis=(0, 2, 3), keepdims=True)  # [1, C, 1, 1]</span><br><span class="line">    alpha = np.zeros_like(mean) + alpha #[1,C,1,1]</span><br><span class="line">    beta = np.zeros_like(mean) + beta #[1,C,1,1]</span><br><span class="line">    x = (data - mean) / np.sqrt(variance + eps) </span><br><span class="line">    return x * alpha + beta</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="BN的优点缺点"><a href="#BN的优点缺点" class="headerlink" title="BN的优点缺点"></a>BN的优点缺点</h5><ul>
+<li><p>优点：加快模型训练时的收敛速度，使得模型训练过程更加稳定，避免梯度爆炸或者梯度消失，同时起到一定的正则化作用。</p>
+<ul>
+<li>BN将每层的数据进行标准化，并通过可学习参数 $\gamma $ 和 $\beta $  两个学习参数来调整这种分布。使得网络中<strong>每层输入数据的分布相对稳定，加速模型的训练速度</strong>，解决“internal covariate shift”的问题。</li>
+<li>允许网络使用饱和性激活函数(sigmoid,tanh)，<strong>缓解了梯度消失的问题</strong>，<strong>避免了梯度弥散和爆炸</strong>。BN可以控制数据的分布范围，在遇到sigmoid或者tanh等激活函数时，不会使数据落在饱和区域导致梯度弥散。并且BN可以避免ReLU激活函数数据死亡的问题。</li>
+<li>降低权重初始化的困难，在深度网络中，网络的最终训练效果也受到初始化的影响，初始化决定了神经网络最终会收敛到哪个局部最小值中，具有随机性。通过BN来标准化分布，<strong>可以降低初始化权重的影响</strong>。</li>
+<li>因为不同的mini_batch均值和方差都有所不同，这就<strong>为网络的学习过程增加了随机噪音</strong>，与dropout随机关闭神经元给网络带来的噪音类似，一定程度上起到了正则化的作用。<strong>在正则化方面，一般全连接层用dropout，卷积层用BN。</strong></li>
+<li>BN中的  $\gamma $ 和 $\beta $ 的作用：<ul>
+<li>保证了模型的capacity，意思就是，γ和β作为调整参数可以调整被BN刻意改变过后的输入，即能够保证能够还原成原始的输入分布。BN对每一层输入分布的调整有可能改变某层原来的输入，当然有了这两个参数，经过调整也可以不发生改变，既可以改变同时也可以保持原输入，那么模型的容纳能力（capacity）就提升了。</li>
+<li>适应激活函数，如果是sigmoid函数，那么BN后的分布在0-1之间，由于sigmoid在接近0的地方趋于线性，非线性表达能力可能会降低，因此通过γ和β可以自动调整输入分布，使得非线性表达能力增强。</li>
+<li>如果激活函数为ReLU，那么意味着将有一半的激活函数无法使用，那么通过β可以进行调整参与激活的数据的比例，防止dead-Relu问题。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>缺点</p>
+<ul>
+<li><p>BN特别依赖于大的batch_size，而由于显卡等硬件限制，我们大多数batch_size都设置的较小，性能会急剧下降。</p>
+</li>
+<li><p>对于序列化数据的网络不太适用，尤其是序列样本长度不同时。如RNN，LSTM。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="层归一化-Layer-Normalization"><a href="#层归一化-Layer-Normalization" class="headerlink" title="层归一化(Layer Normalization)"></a>层归一化(Layer Normalization)</h4><p>如果一个神经元的净输入分布在神经网络中是动态变化的，比如循环神经网络，那么无法应用批归一化操作。</p>
+<p>层归一化和批归一化不同的是，<strong>层归一化是对一个中间层的所有神经元进行归一化</strong>。</p>
+<p><strong>注意</strong>：LayerNorm的均值和方差是根据单个数据计算的，所以<strong>不需要计算全局均值和全局方差</strong>。类似BN的计算公式，只不过是在计算均值和方差是在不同的维度上进行的。</p>
+<h5 id="LN基本原理和公式"><a href="#LN基本原理和公式" class="headerlink" title="LN基本原理和公式"></a>LN基本原理和公式</h5><p>基本原理和公式与 BN的差不多，只不过是计算均值和方差在不一样的维度罢了。</p>
+<h5 id="LN的计算"><a href="#LN的计算" class="headerlink" title="LN的计算"></a>LN的计算</h5><p>选择 torch.nn.LayerNorm为例（<em>normalized_shape=(C,H,W)</em>），对于【N, C, H, W】的特征图（下图可以理解为【N ,C, H*W】，保留通道 N 计算均值和方差。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/4.jpg" style="zoom:80%;" /></p>
+<ul>
+<li><p>注意与BatchNorm2d的不同：</p>
+<ul>
+<li>当torch.nn.LayerNorm的elementwise_affine为True时， $\gamma $ 和 $\beta $ 的参数数量分别时 C*H*W 。</li>
+<li>当torch.nn.LayerNorm的elementwise_affine为False时，没有 $\gamma $ 和 $\beta $ 参数</li>
+</ul>
+</li>
+<li><p><strong>训练和推理阶段</strong>：均值和方差根据输入数据计算，不需要在训练集上用滑动平均方法计算，所以不保存均值和方差。</p>
+</li>
+<li><p>代码：实现的时候γ和β参数的维度和一开始想的不一样（一开始以为和batch_norm2d一样，那应该是2N个可学习参数，实际上是根据元素数量来的），看了源码才发现没有均值和方差这2个参数。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># torch版本</span><br><span class="line">def LayerNorm(x, gamma, beta, eps=1e-5): </span><br><span class="line">    # x: input shape [N, C, H, W] </span><br><span class="line">    N, C, H, W = x.shape </span><br><span class="line">    mean = torch.mean(input=x, dim=[1,2,3], keepdim=True) </span><br><span class="line">    var = torch.var(input=x, dim=[1,2,3], keepdim=True) </span><br><span class="line">    # mean, var shape: [N, 1, 1, 1] </span><br><span class="line">    x = (x - mean) / torch.sqrt(var + eps) </span><br><span class="line">    return x * gamma + beta</span><br><span class="line"></span><br><span class="line"># numpy版本 更对(两个可学习的参数)</span><br><span class="line">def layer_normalize2d(x, alpha=1.0, beta=0.0, eps=1e-5):</span><br><span class="line">	# x: input shape [N, C, H, W] </span><br><span class="line">    mean = np.mean(x, axis=(1, 2, 3), keepdims=True)  # [N, 1, 1, 1]</span><br><span class="line">    variance = np.var(x, axis=(1, 2, 3), keepdims=True)  # [N, 1, 1, 1]</span><br><span class="line">    alpha = np.zeros(shape=(1,) + x.shape[1:]) + alpha #[1,C,H,W]</span><br><span class="line">    beta = np.zeros(shape=(1,) + x.shape[1:]) + beta #[1,C,H,W]</span><br><span class="line">    x = (x- mean) / np.sqrt(variance + eps)</span><br><span class="line">    return x * alpha + beta</span><br></pre></td></tr></table></figure>
+<p>在这种方法中，batch(N) 中的每个示例都在 [C, H, W] 维度上进行了归一化。 与 BN 一样，它可以加速和稳定训练，并且不受批次的限制。 此方法可用于批量为 1 的在线学习任务。</p>
+</li>
+</ul>
+<h4 id="实例归一化-Instance-Normalization"><a href="#实例归一化-Instance-Normalization" class="headerlink" title="实例归一化(Instance Normalization)"></a>实例归一化(Instance Normalization)</h4><p>IN是针对图像像素做归一化处理，适用于生成模型中，例如图像的风格化迁移等。</p>
+<h5 id="IN基本原理和公式"><a href="#IN基本原理和公式" class="headerlink" title="IN基本原理和公式"></a>IN基本原理和公式</h5><p>基本原理和公式与 BN的差不多，只不过是计算均值和方差在不一样的维度罢了。</p>
+<h5 id="IN的计算"><a href="#IN的计算" class="headerlink" title="IN的计算"></a>IN的计算</h5><p>以 torch.nn.InstanceNorm2d（track_running_stats=True, affine=True）为例，对于【N, C, H, W】的特征图（下图可以理解为[N ,C, H*W]），保留通道N和C计算均值和方差。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/5.jpg" style="zoom:80%;" /></p>
+<ul>
+<li><p>相信有很多朋友都是根据这张图来理解Instance Norm，一眼看上去均值mean和方差variance的维度应该是[N, C]，但是打印出runing_mean和runing_var维度一看，竟然是[C]！What?</p>
+<p>好家伙，经过多次测试，终于搞明白了，原来在归一化计算（一、归一化  中的公式）的时候，均值和方差维度是[N, C]，但是因为batch_size可能会变化，所以running_mean和running_var保存的时候把[N,C]的均值和方差取了个均值，所以runing_mean和runing_var维度是[C]。</p>
+</li>
+<li><p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">#torch版本</span><br><span class="line">def InstanceNorm(x, gamma, beta, eps=1e-5): </span><br><span class="line">    # x: input shape [N, C, H, W] </span><br><span class="line">    N, C, H, W = x.shape </span><br><span class="line">    mean = torch.mean(input=x, dim=[2,3], keepdim=True) </span><br><span class="line">    var = torch.var(input=x, dim=[2,3], keepdim=True) </span><br><span class="line">    # mean, var  shape: [N, C, 1, 1] </span><br><span class="line">    x = (x - mean) / torch.sqrt(var + eps) </span><br><span class="line">    return x * gamma + beta</span><br><span class="line"></span><br><span class="line">#numpy版本</span><br><span class="line">def instance_normalize2d(x, alpha=1.0, beta=0.0, eps=1e-5):</span><br><span class="line">    mean = np.mean(x, axis=(2, 3), keepdims=True)  # [N, C, 1, 1]</span><br><span class="line">    variance = np.var(x, axis=(2, 3), keepdims=True)  # [N, C, 1, 1]</span><br><span class="line">    alpha = np.zeros_like(mean) + alpha</span><br><span class="line">    beta = np.zeros_like(mean) + beta</span><br><span class="line">    # print(mean[:, :, 0, 0].mean(axis=0), variance[:, :, 0, 0].mean(axis=0))</span><br><span class="line">    x = (x - u) / np.sqrt(variance + eps) </span><br><span class="line">	return x * alpha + beta</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="组归一化-Group-Normalization"><a href="#组归一化-Group-Normalization" class="headerlink" title="组归一化(Group Normalization)"></a>组归一化(Group Normalization)</h4><p>InstanceNorm就是GroupNorm的特例，当Group Norm分组和channels相同时，就是instance norm，当分组为1时，就是LayerNorm。 GN 将通道分成组并在它们之间进行标准化。 该方案使计算独立于批量大小。</p>
+<h5 id="GN基本原理和公式"><a href="#GN基本原理和公式" class="headerlink" title="GN基本原理和公式"></a>GN基本原理和公式</h5><p>基本原理和公式与 BN的差不多，只不过是计算均值和方差在不一样的维度罢了。</p>
+<h5 id="GN计算"><a href="#GN计算" class="headerlink" title="GN计算"></a>GN计算</h5><p>以 torch.nn.GroupNorm为例，对于【N, C, H, W】的特征图（下图可以理解为[N ,C, H*W]），需要先将通道C维度划分为G个组得到新的特征图【N, G,C/G H, W】，然后保留通道N和G计算均值和方差。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/6.jpg" style="zoom:80%;" /></p>
+<ul>
+<li><p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">def GroupNorm(x, gamma, beta, G, eps=1e-5): </span><br><span class="line">    # x: input features with shape [N, C, H, W] </span><br><span class="line">    # G : number of groups </span><br><span class="line">    N, C, H, W = x.shape </span><br><span class="line">    x = torch.reshape(input=x, shape=[N, G, C // G, H, W]) </span><br><span class="line">    mean = torch.mean(input=x, dim=[2,3,4], keepdim=True) </span><br><span class="line">    var = torch.var(input=x, dim=[2,3,4], keepdim=True) </span><br><span class="line">    # mean, var shape : [N, G, 1, 1, 1] </span><br><span class="line">    x = (x - mean) / torch.sqrt(var + eps) </span><br><span class="line">    x = torch.reshape(input=x, shape=[N, C, H, W]) </span><br><span class="line">    return x * gamma + beta</span><br><span class="line"># 可学习参数的不同(更好)    </span><br><span class="line">def GroupNorm(x, G, gamma=1.0, beta=0.0, eps=1e-5): </span><br><span class="line">    # x: input features with shape [N, C, H, W] </span><br><span class="line">    # G : number of groups </span><br><span class="line">    N, C, H, W = x.shape </span><br><span class="line">    x = torch.reshape(input=x, shape=[N, G, C // G, H, W]) </span><br><span class="line">    mean = torch.mean(input=x, dim=[2,3,4], keepdim=True) </span><br><span class="line">    var = torch.var(input=x, dim=[2,3,4], keepdim=True) </span><br><span class="line">    # mean, var shape : [N, G, 1, 1, 1] </span><br><span class="line">    gamma = np.zeros_like(mean) + gamma</span><br><span class="line">    beta = np.zeros_like(mean) + beta</span><br><span class="line">    x = (x - mean) / torch.sqrt(var + eps) </span><br><span class="line">    x = torch.reshape(input=x, shape=[N, C, H, W]) </span><br><span class="line">    return x * gamma + beta</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="可切换归一化-Switchable-Normalization"><a href="#可切换归一化-Switchable-Normalization" class="headerlink" title="可切换归一化(Switchable Normalization)"></a>可切换归一化(Switchable Normalization)</h4><p>BN、LN、IN这些归一化方法往往能提升模型性能，但当你接收一个任务时，具体选择哪个归一化方法仍然需要人工选择，这往往需要大量的对照实验或者开发者本身优秀的经验才能选出最合适的归一化方法，因此SN出场了。</p>
+<p>它的算法核心在于提出了一个可微的归一化层，可以让模型根据数据来学习到每一层该选择的归一化方法，或是三个归一化方法的加权和。所以SN是一个任务无关的归一化方法，在分类，检测，分割，IST，LSTM等各个方向的任务中，均取得了非常好的效果。</p>
+<p>SN算法是为三组不同的γ和β分别学习共六个标量值$(W_k,W_k^{‘})$，得到他们的加权和：</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/9.png" alt=""></p>
+<p>其中=$W={IN,LN,BN}$。这样仅仅通过增加六个参数，由三种不同统计方法的共同优化，得到更好的归一化结果，但训练过程比较复杂。因此其比其他的归一化方法存在更高的鲁棒性、通用性和多样性。</p>
+<h4 id="权重归一化-Weight-Normalization"><a href="#权重归一化-Weight-Normalization" class="headerlink" title="权重归一化(Weight Normalization)"></a>权重归一化(Weight Normalization)</h4><p>权重归一化(Weight Normalization)是对神经网络的连接权重进行归一化，通过再参数化(Reparameterization)方法，将连接权重分解为长度和方向两种参数。</p>
+<p>已经对输入和层输出进行了标准化，唯一剩下的就是权重。因为它们可以在没有任何控制的情况下变大，尤其是当我们无论如何都要标准化输出时。 通过标准化权重，我们实现了更平滑的损失和更稳定的训练。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/7.jpg" style="zoom:80%;" /></p>
+<ul>
+<li><p>代码</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">def WeightStand(w, eps=1e-5): </span><br><span class="line">    # w: input features shape [Cin, Cout, kernel_size, kernel_size] </span><br><span class="line">    mean = torch.mean(input=w, dim=[0,2,3], keepdim=True) </span><br><span class="line">    var = torch.var(input=w, dim=[0,2,3], keepdim=True) </span><br><span class="line">    # mean, var shape : [1, Cout, 1, 1] </span><br><span class="line">    w = (w - mean) / torch.sqrt(var + eps) </span><br><span class="line">    return w</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="归一化对比"><a href="#归一化对比" class="headerlink" title="归一化对比"></a>归一化对比</h4><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/8.jpg" alt=""></p>
+<ul>
+<li><p>BN：<strong>取整个Batch-size,多个样本做归一化</strong>。</p>
+</li>
+<li><p>LN：<strong>取同一个样本的不同通道做归一化，逐样本归一化</strong>。是由Hinton及其学生提出，可以很好的用在序列型网络如RNN中，同时LN在训练和预测时均值方差都由当前样本确定，这与BN不同。可以不进行批训练。</p>
+</li>
+<li><p>IN：<strong>仅仅对每一个样本的每一个通道做归一化</strong>。主要用于生成模型中， feature map 的各个 channel 的均值和方差会影响到最终生成图像的风格，如图片风格迁移，图片生成结果主要依赖于某个图像实例，所以BN不行</p>
+</li>
+<li><p>GN：<strong>介于LN和IN之间的一种方法，对每个样本的多个通道进行归一化</strong>。用由何凯明团队提出，优化了BN在batch_size较小时的劣势，适用于占用显存较大的任务，如图像分割，一般为16个通道为一组(经验)</p>
+</li>
+</ul>
+<p><strong>目前BN使用最为广泛，能加快模型收敛速度，提高网络泛化性</strong>，但是存在小batch时错误率的问题。LN多用于RNN中，且不需要批训练，但在输入的特征区别较大时不建议使用。</p>
+<p>IN用于图像的风格化迁移方面，不会受到通道数和batch size的影响，但特征通道之间的存在相关性时，则不建议使用。GN避免了BN的问题，训练时与batch size大小无关，但验证效果比BN差一些。<strong>SN是让模型根据数据来学习到每一层该选择的归一化方法或是BN、IN、GN归一化方法的加权和，但计算复杂</strong>。WN在噪声较大时能取得更好的效果，不受限于batch，但是对初始参数较为敏感，目前使用极少。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Normalized-Summary/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Normalized-Summary/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/Normalization/">Normalization</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/head.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Metric-in-Semantic-Segmentation/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230326/head.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Metric_in_Semantic_Segmentation</div></div></a></div><div class="next-post pull-right"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Data-Enhancemence/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20220320/11.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Data_Enhancemenct</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/Prior-Knowledge/常用激活函数（激励函数）理解和总结/" title="常用激活函数（激励函数）理解和总结"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210824/17.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-25</div><div class="title">常用激活函数（激励函数）理解和总结</div></div></a></div><div><a href="/人工只能/计算机视觉/神经网络的来龙去脉/" title="神经网络的来龙去脉"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210812/src=http___pic4.zhimg.com_v2-adb83525bc91ed30985d7161612f91b7_b.jpg&refer=http___pic4.zhimg.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-14</div><div class="title">神经网络的来龙去脉</div></div></a></div><div><a href="/人工只能/计算机视觉/计算机视觉的基本知识介绍/" title="计算机视觉的基本知识介绍"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210828/14.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-08-28</div><div class="title">计算机视觉的基本知识介绍</div></div></a></div><div><a href="/人工只能/计算机视觉/浅析UNet/" title="浅析UNet"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20210924/11.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-09-26</div><div class="title">浅析UNet</div></div></a></div><div><a href="/人工只能/papers-ICCV/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div><div><a href="/人工只能/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/" title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-08</div><div class="title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E6%80%BB%E7%BB%93-Normalization"><span class="toc-number">1.</span> <span class="toc-text">归一化总结(Normalization)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%B9%E9%87%8F%E5%BD%92%E4%B8%80%E5%8C%96-Batch-Normalization-BN"><span class="toc-number">1.1.</span> <span class="toc-text">批量归一化(Batch Normalization, BN)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81BN"><span class="toc-number">1.1.1.</span> <span class="toc-text">为什么需要BN?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E4%B8%8A%E8%BF%B0%E9%97%AE%E9%A2%98"><span class="toc-number">1.1.2.</span> <span class="toc-text">解决上述问题</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BN%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%92%8C%E5%85%AC%E5%BC%8F"><span class="toc-number">1.1.3.</span> <span class="toc-text">BN基本原理和公式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BN%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">1.1.4.</span> <span class="toc-text">BN的计算</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#BN%E7%9A%84%E4%BC%98%E7%82%B9%E7%BC%BA%E7%82%B9"><span class="toc-number">1.1.5.</span> <span class="toc-text">BN的优点缺点</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B1%82%E5%BD%92%E4%B8%80%E5%8C%96-Layer-Normalization"><span class="toc-number">1.2.</span> <span class="toc-text">层归一化(Layer Normalization)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#LN%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%92%8C%E5%85%AC%E5%BC%8F"><span class="toc-number">1.2.1.</span> <span class="toc-text">LN基本原理和公式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#LN%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">1.2.2.</span> <span class="toc-text">LN的计算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B%E5%BD%92%E4%B8%80%E5%8C%96-Instance-Normalization"><span class="toc-number">1.3.</span> <span class="toc-text">实例归一化(Instance Normalization)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#IN%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%92%8C%E5%85%AC%E5%BC%8F"><span class="toc-number">1.3.1.</span> <span class="toc-text">IN基本原理和公式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#IN%E7%9A%84%E8%AE%A1%E7%AE%97"><span class="toc-number">1.3.2.</span> <span class="toc-text">IN的计算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%84%E5%BD%92%E4%B8%80%E5%8C%96-Group-Normalization"><span class="toc-number">1.4.</span> <span class="toc-text">组归一化(Group Normalization)</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#GN%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86%E5%92%8C%E5%85%AC%E5%BC%8F"><span class="toc-number">1.4.1.</span> <span class="toc-text">GN基本原理和公式</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#GN%E8%AE%A1%E7%AE%97"><span class="toc-number">1.4.2.</span> <span class="toc-text">GN计算</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8F%AF%E5%88%87%E6%8D%A2%E5%BD%92%E4%B8%80%E5%8C%96-Switchable-Normalization"><span class="toc-number">1.5.</span> <span class="toc-text">可切换归一化(Switchable Normalization)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9D%83%E9%87%8D%E5%BD%92%E4%B8%80%E5%8C%96-Weight-Normalization"><span class="toc-number">1.6.</span> <span class="toc-text">权重归一化(Weight Normalization)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BD%92%E4%B8%80%E5%8C%96%E5%AF%B9%E6%AF%94"><span class="toc-number">1.7.</span> <span class="toc-text">归一化对比</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230325/head.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
