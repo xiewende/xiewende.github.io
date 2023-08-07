@@ -1,0 +1,312 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Vision_Transformer相关总结 | sevenboy</title><meta name="keywords" content="Transformer总结"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是常用VIT基础简单总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vision_Transformer相关总结">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Vision-Transformer%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是常用VIT基础简单总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/image.jpg">
+<meta property="article:published_time" content="2023-08-07T14:16:12.000Z">
+<meta property="article:modified_time" content="2023-08-07T14:23:40.899Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="Transformer">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/image.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Vision-Transformer%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'Vision_Transformer相关总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-08-07 22:23:40'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/image.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">Vision_Transformer相关总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-07T14:16:12.000Z" title="发表于 2023-08-07 22:16:12">2023-08-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-07T14:23:40.899Z" title="更新于 2023-08-07 22:23:40">2023-08-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/">Prior Knowledge</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">4.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>14分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="Vision_Transformer相关总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h4 id="Transformer的小总结"><a href="#Transformer的小总结" class="headerlink" title="Transformer的小总结"></a>Transformer的小总结</h4><p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/1.jpg" style="zoom:80%;" /></p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/7.jpg" style="zoom:67%;" /></p>
+<script type="math/tex; mode=display">
+Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V</script><p><strong>计算过程：</strong>$Q,K,V \in R^{B \times H \times W \times C}$ ==&gt; 多头注意力$Q,K,V \in R^{B \times \times H \times W \times numHead \times C/numHead} ==&gt;Q,k,V \in R^{B \times numHead \times HW \times C/numHead }$ ==&gt; 注意力矩阵 $S = QK^T \in R^{B \times numHead \times HW \times HW}$==&gt;提取value $SV \in R^{B \times numHead \times HW \times C/numhead} ==&gt; R^{B \times HW \times C}$</p>
+<h5 id="Transformer简要介绍"><a href="#Transformer简要介绍" class="headerlink" title="Transformer简要介绍"></a>Transformer简要介绍</h5><ul>
+<li>Transfomer 是一种基于注意力机制的神经网络模型。Transformer模型由编码器和解码器两部分组成，其中编码器用于将输入序列编码成一个高维向量表示，解码器用于将这个向量表示解码成目标序列。Transformer模型最核心的部分是自注意力机制，它能够让模型在不同位置之间进行信息传递和交互，从而更好地学习输入序列中的信息。</li>
+</ul>
+<h5 id="Transformer的输入是什么"><a href="#Transformer的输入是什么" class="headerlink" title="Transformer的输入是什么"></a>Transformer的输入是什么</h5><ul>
+<li><p>Trransformer的输入是词向量与位置向量之和，<code>词向量</code>可以通过预训练的词向量模型或在模型内部学习得到。<code>位置向量</code>可以通过固定位置编码公式获得或者在模型内容不学习得到。</p>
+</li>
+<li><p><strong>Vision Transformer：首先将图像进行patch化策略，把每一个patch视为向量，所有向量并在一起就形成一系列的patch序列，然后再加上位置编码作为Transformer的输入。</strong></p>
+<p><code>self.proj = nn.Conv2d(in_chans, embed_dim, kernel_size=patch_size, stride=patch_size) patch_size:也就是下采样的倍数，一般为4、16</code> </p>
+</li>
+</ul>
+<h5 id="固定编码和可学习编码的优缺点"><a href="#固定编码和可学习编码的优缺点" class="headerlink" title="固定编码和可学习编码的优缺点"></a>固定编码和可学习编码的优缺点</h5><ul>
+<li>固定位置编码优点是可以根据公式快速获得句子的位置信息，无需在训练中继续学习；其缺点是不能处理变化的序列（例如：我是大帅哥，大帅哥是我）。</li>
+<li>可学习位置编码优点是可以通过训练时动态理解句子的位置信息；缺点是需要大量的数据才能获取比较全的位置信息。</li>
+</ul>
+<h5 id="Transformer的Encoder模块"><a href="#Transformer的Encoder模块" class="headerlink" title="Transformer的Encoder模块"></a>Transformer的Encoder模块</h5><ul>
+<li>Transformer的Encoder模块是由多个相同的层堆叠而成的，每一层由两个子层组成，分别是多头注意力机制（Multi-Head Attention）和前馈神经网络（Feed-Forward Neural Network）。在多头注意力机制中，输入序列会经过三个线性变换，分别是Q、K、V，然后进行多头注意力计算，得到每个位置对其他位置的注意力权重，再将输入序列加权求和得到多头注意力的输出。在前馈神经网络中，多头注意力的输出经过两个全连接层和ReLU激活函数的变换，得到每个位置的特征表示。接下来，这两个子层会进行残差连接（Residual Connection）和层归一化（Layer Normalization）操作，使得模型更容易训练，也能更好地捕捉输入序列之间的相关性。</li>
+<li><strong>残差结构以及意义</strong>：encoder和decoder的self-attention层和ffn层都有残差连接。反向传播的时候不会造成梯度消失。</li>
+</ul>
+<h5 id="为什么transformer块使用LayerNorm而不是BatchNorm？"><a href="#为什么transformer块使用LayerNorm而不是BatchNorm？" class="headerlink" title="为什么transformer块使用LayerNorm而不是BatchNorm？"></a>为什么transformer块使用LayerNorm而不是BatchNorm？</h5><ul>
+<li>Layer Normalization是一种能够应对不同序列长度的归一化方法，它对每个样本的特征进行归一化。Batch Normalization是一种在深度神经网络中广泛使用的归一化方法，通过对每个小批量的输入进行归一化，从而使得网络的训练更加稳定，并加速收敛速度。但是，在自然语言处理任务中，输入的序列长度通常是不同的，因此很难将不同长度的序列组成一个小批量进行归一化。</li>
+</ul>
+<h5 id="Transformer输入只能相加吗？"><a href="#Transformer输入只能相加吗？" class="headerlink" title="Transformer输入只能相加吗？"></a>Transformer输入只能相加吗？</h5><ul>
+<li>在Transformer模型中，输入的两个部分是词向量和位置编码，它们是分别生成的，然后进行相加得到最终的输入表示。因此，在Transformer模型中，输入确实只能相加，即词向量和位置编码不能进行其他的运算，如乘法、除法等。这是因为词向量和位置编码的维度是相同的，都是模型的隐藏层维度，而它们的作用是不同的，词向量用于表示单词的语义信息，位置编码用于表示单词在句子中的位置信息。因此，将它们相加可以将这两种信息融合到一起，从而为模型提供更加丰富的输入信息。如果进行其他的运算，如乘法、除法等，可能会破坏词向量和位置编码的信息，影响模型的性能。因此，在Transformer模型中，输入只能相加，不能进行其他的运算。</li>
+</ul>
+<h5 id="Transformer为何使用多头注意力机制？"><a href="#Transformer为何使用多头注意力机制？" class="headerlink" title="Transformer为何使用多头注意力机制？"></a>Transformer为何使用多头注意力机制？</h5><ul>
+<li><strong>提高模型的表达能力</strong>，多头注意力机制可以让模型在不同的注意力空间下学习到不同的特征，从而能够更好地表达输入序列的信息。如果只使用一个注意力头，那么模型可能会在学习特定的特征时出现瓶颈，导致模型的表达能力受限。</li>
+<li>Multi-head attention allows the model to jointly attend to information from different representation subspaces at different positions.</li>
+<li>举例说明不一样的特征表达字空间。一张图中在颜色方面更加关注鲜艳亮丽的文字，而在字体方面会去注意大的、粗体的文字。</li>
+</ul>
+<h5 id="Transformer为什么Q和K使用不同的权重矩阵生成，为何不能使用同一个值进行自身的点乘？"><a href="#Transformer为什么Q和K使用不同的权重矩阵生成，为何不能使用同一个值进行自身的点乘？" class="headerlink" title="Transformer为什么Q和K使用不同的权重矩阵生成，为何不能使用同一个值进行自身的点乘？"></a>Transformer为什么Q和K使用不同的权重矩阵生成，为何不能使用同一个值进行自身的点乘？</h5><ul>
+<li>使用 Q；K；V 不相同可以保证在不同空间进行投影，增强了表达能力，提高了泛化能力。</li>
+<li>在Transformer中，Q和K使用不同的权重矩阵生成是为了让模型在学习不同的特征时更加灵活。Q和K的区别在于它们所代表的信息不同，Q代表查询信息，K代表键信息，它们的作用不同，因此使用不同的权重矩阵可以让模型在不同的注意力空间下学习到更加丰富的特征，并提高模型的表现能力。</li>
+<li>如果使用同一个权重矩阵进行自身的点乘操作，可能会使模型在学习特定的特征时出现瓶颈，导致模型表达能力受限，从而影响模型的性能。</li>
+<li>为了打破对称性，但是如果不用Q，直接拿K和K点乘的话，你会发现attention score 矩阵是一个对称矩阵。因为是同样一个矩阵，都投影到了同样一个空间，所以泛化能力很差。</li>
+</ul>
+<h5 id="Transformer计算attention的时候为何选择点乘而不是加法？"><a href="#Transformer计算attention的时候为何选择点乘而不是加法？" class="headerlink" title="Transformer计算attention的时候为何选择点乘而不是加法？"></a>Transformer计算attention的时候为何选择点乘而不是加法？</h5><ul>
+<li><p>K和Q的点乘是为了得到一个attention score 矩阵，用来对V进行提纯。K和Q使用了不同的W_k, W_Q来计算，可以理解为是在不同空间上的投影。正因为有了这种不同空间的投影，增加了表达能力，这样计算得到的attention score矩阵的泛化能力更高。</p>
+</li>
+<li><p>在Transformer中，采用点乘（dot-product）作为注意力机制的计算方式，是因为点乘计算的方式是一种更加有效的方法，可以更好地捕捉输入序列中的相关性。与加法相比，点乘可以使模型在计算注意力时更加精确，同时也具有更好的计算效率。</p>
+</li>
+</ul>
+<h5 id="在计算attention时，为什么进行softmax之前需进行scaled（为什么除以dk的平方根）"><a href="#在计算attention时，为什么进行softmax之前需进行scaled（为什么除以dk的平方根）" class="headerlink" title="在计算attention时，为什么进行softmax之前需进行scaled（为什么除以dk的平方根）?"></a>在计算attention时，为什么进行softmax之前需进行scaled（为什么除以dk的平方根）?</h5><ul>
+<li>在计算self-attention时，需要进行softmax操作，以计算每个输入序列位置对其他位置的注意力权重。<strong>为了避免softmax函数的指数计算导致数值溢出或下溢</strong>，Transformer模型中使用了scaled dot-product attention，即在softmax之前对向量点乘结果进行了缩放操作，用于控制点乘结果的大小。<br>具体来说，该缩放操作是将点乘结果除以一个值，这个值是输入向量的维度的平方根，即dk的平方根，其中dk表示每个向量的维度。这个缩放因子的作用是：当输入向量的维度增加时，点乘结果的大小也会增加，导致softmax函数的指数计算变得困难，缩放因子能够使点乘结果的大小保持在一个合适的范围内，从而提高计算的稳定性。</li>
+</ul>
+<h5 id="大概讲一下Transformer的Decoder模块？"><a href="#大概讲一下Transformer的Decoder模块？" class="headerlink" title="大概讲一下Transformer的Decoder模块？"></a>大概讲一下Transformer的Decoder模块？</h5><ul>
+<li>Transformer模型的Decoder模块是用于将Encoder模块的输出映射到目标序列的一组连续表示的核心部分。该模块由多个Decoder层组成，每个Decoder层包括了以下几个部分：<ol>
+<li><strong><code>自注意力层</code></strong>：与Encoder中的自注意力层类似，Decoder中的自注意力层也是将输入序列中每个位置的表示向量作为查询向量(Q)、键向量(K)和值向量(V)，通过多头注意力计算得到每个位置的上下文向量。但是多了一个Mask的过程，让输入序列只看到过去的信息，不能让他看到未来的信息。具体来说，在attention score矩阵中添加mask矩阵来屏蔽不可见的信息，对padding做mask操作就是在padding位置设为负无穷(一般来说-1000就可以)，再对attention score进行相加即可。</li>
+<li><strong><code>编码器-解码器注意力层(cross-attention)</code></strong>：该层用于将Encoder模块的输出与Decoder中上一层的输出结合起来，以便更好地理解输入和输出之间的关系。具体来说，该层将Encoder模块的输出作为键向量(K) 和值向量(V) ，将Decoder中上一层的输出作为查询向量(Q)，通过多头注意力机制计算得到每个位置的上下文向量。</li>
+<li><strong><code>前馈神经网络层</code></strong>：该层对经过自注意力层和编码器-解码器注意力层编码的信息进行非线性变换，以提高模型的表达能力。</li>
+<li><strong><code>残差连接层和层归一化层</code></strong>：这两个层与Encoder模块中的残差连接层和层归一化层类似，用于保证模型的稳定性和加速训练。在每个Decoder层之间，都进行了层归一化处理。<br>Decoder模块的最后一层输出的表示向量经过一个线性变换和softmax函数，得到每个位置上每个单词的概率分布。然后可以根据分布进行单词的选择和预测。</li>
+</ol>
+</li>
+</ul>
+<h5 id="Decoder阶段的多头自注意力和encoder的多头自注意力有什么区别？"><a href="#Decoder阶段的多头自注意力和encoder的多头自注意力有什么区别？" class="headerlink" title="Decoder阶段的多头自注意力和encoder的多头自注意力有什么区别？"></a>Decoder阶段的多头自注意力和encoder的多头自注意力有什么区别？</h5><ul>
+<li><p>在Transformer模型中，Encoder和Decoder都包含多头自注意力机制。虽然它们的原理类似，但是在具体实现中，它们之间存在一些区别。下面分别介绍Decoder阶段的多头自注意力和Encoder的多头自注意力的区别：</p>
+<p><strong><code>1.查询向量不同</code></strong>：在Encoder的多头自注意力中，每个词向量都被用作查询、键和值，即Q=K=V，而在Decoder的多头自注意力中，查询向量(Q) 是上一个Decoder层的输出，而键(K) 和值向量(V) 是Encoder模型的输出。</p>
+<p><strong><code>2.掩码</code></strong>：在Decoder的多头自注意力中，需要使用掩码来防止当前时间步的解码器看到未来时间步的信息。具体来说，将未来时间步的位置的注意力权重设置为0，这样在计算当前时间步的注意力分数时，就不会考虑未来时间步的信息。</p>
+<p><strong><code>3.添加编码</code></strong>：在Decoder的多头自注意力中，需要将编码器的输出添加到查询向量和键向量中，以便解码器能够了解输入序列的信息。</p>
+<p><strong><code>4.位置编码</code></strong>：在Decoder的多头自注意力中，位置编码的计算方式与Encoder中的位置编码不同。Encoder中的位置编码是为了表示输入序列中单词的位置关系，而Decoder中的位置编码是为了表示输出序列中单词的位置关系。</p>
+</li>
+</ul>
+<h5 id="Transformer的并行化提现在哪个地方？Decoder端可以做并行化吗？"><a href="#Transformer的并行化提现在哪个地方？Decoder端可以做并行化吗？" class="headerlink" title="Transformer的并行化提现在哪个地方？Decoder端可以做并行化吗？"></a>Transformer的并行化提现在哪个地方？Decoder端可以做并行化吗？</h5><ul>
+<li><p><strong><code>1. 多头注意力机制</code></strong>：多头注意力机制将输入序列分成多个子序列，并同时计算每个子序列的注意力表示，从而实现了多头并行计算。这种并行计算方式可以有效地加速模型的训练和推理过程。</p>
+<p><strong><code>2. Encoder端的并行化</code></strong>：在Encoder端，Transformer模型将输入序列分成多个子序列，并分别在不同的计算设备上进行计算。这种并行计算方式可以显著提高模型训练的速度。而在Decoder端，由于每个时间步的计算需要依赖上一个时间步的输出，因此无法进行完全的并行化。但是，可以通过一定的技巧来提高Decoder的并行化效率，例如：</p>
+<p><strong><code>3. 延迟解码</code></strong>：在训练时，可以将目标序列分成多个子序列，并在不同的计算设备上同时进行解码。但是，在推理时，由于无法知道整个目标序列，因此需要使用延迟解码的方式，即在每个时间步上进行解码，并将上一个时间步的输出作为当前时间步的输入。</p>
+<p><strong><code>4. Beam Search并行化</code></strong>：在推理时，可以使用Beam Search算法来生成目标序列，并通过将不同的Beam分配到不同的计算设备上来实现推理的并行化。<br>因此，虽然Decoder端无法像Encoder端那样进行完全的并行化，但是可以通过一定的技巧来提高其并行化效率。</p>
+</li>
+</ul>
+<h5 id="简单描述一下Transformer中的前馈神经网络？使用了什么激活函数？相关优缺点？"><a href="#简单描述一下Transformer中的前馈神经网络？使用了什么激活函数？相关优缺点？" class="headerlink" title="简单描述一下Transformer中的前馈神经网络？使用了什么激活函数？相关优缺点？"></a>简单描述一下Transformer中的前馈神经网络？使用了什么激活函数？相关优缺点？</h5><ul>
+<li>Transformer模型中的前馈神经网络（Feed-Forward Neural Network，简称FFN）是在每个Encoder和Decoder层的自注意力层和编码器-解码器注意力层之间添加的一层全连接的前馈神经网络。它的输入是自注意力层或编码器-解码器注意力层的输出，输出是一个新的表示向量，其中包含了更高层次的语义信息。<br>在Transformer模型中，FFN使用了两层全连接的结构，两层之间使用了ReLU激活函数。具体来说，在每个FFN层中，输入的表示向量首先通过一个全连接层进行线性变换，然后再通过一个ReLU激活函数进行非线性变换，最后再通过另一个全连接层进行线性变换得到输出。<br>FFN的优点是可以通过多层的非线性变换，提取输入的更高层次的语义特征，从而提高模型的表达能力。另外，由于FFN的计算是独立进行的，因此可以通过并行化来加速模型的训练和推理过程。<br>但是，FFN也存在一些缺点。首先，由于FFN只考虑了每个位置的局部信息，因此无法处理序列中的长距离依赖关系。其次，由于FFN的计算复杂度较高，因此容易成为模型的瓶颈。最后，由于FFN没有考虑序列中的位置信息，因此可能会存在位置信息的混淆问题。<br>为了解决这些问题，一些变种的Transformer模型，如XLNet和Relative Positional Encoding等，引入了新的机制，以提高模型的性能和稳定性。</li>
+</ul>
+<h5 id="分析计算复杂度"><a href="#分析计算复杂度" class="headerlink" title="分析计算复杂度"></a>分析计算复杂度</h5><ul>
+<li><p>Vision Transformer 中计算复杂度是平方次幂级别的，具有高计算量和内存消耗；这也在最近大量论文针对解决的问题，降低2次幂的复杂度问题。</p>
+</li>
+<li><p>分析Vision Transformer的计算复杂度：</p>
+<ul>
+<li><p>Multi-head Attention：输入query, key, value; 其中query, key首先通过矩阵相乘得到一个attention矩阵，然后 attention 矩阵再通过和value进行矩阵相乘得到了加了attention信息的feature。我们知道query，key，value来自同一个feature，但是需要通过三个不一样的全连接层映射到不一样的投影空间。假设输入的 feature 的特征维度是：$N  \times D \times H \times W$, 分别通过三个不一样的全连接层 $D \times D$， 此处他们三个的权值是不共享的，所以：</p>
+<ul>
+<li>参数量：$3 \times D \times D$ ；计算量： $3 \times HW \times D \times D$ ；其中3就是三个不一样的全连接层分别得到q，k，v。</li>
+</ul>
+<p>接下来是multi-head的过程，multi-head的原理是把通道维度D分为多个head，每个head学习不同方面的attention信息，同时参数量和计算量也不会额外增加。只包含计算两次矩阵相乘的结果：</p>
+<ul>
+<li>query@key and attention_map@value：$2 \times (HW)^2 \times D$;</li>
+</ul>
+<p>最后再接一个全连接层：</p>
+<ul>
+<li>参数量：$D \times D$ ；计算量： $ HW \times D \times D$ ；</li>
+</ul>
+<p><strong>总结：</strong></p>
+<p><strong>参数量：$4 \times D \times D$ ；计算量： $4 \times HW \times D^2 + 2(HW)^2 \times D$ ；2次幂指的是$(HW)^2$</strong></p>
+</li>
+<li><p>FFN过程：经过两个全连接层：计算量为 $2 \times HW \times D \times D_{hiddn}$ </p>
+</li>
+</ul>
+</li>
+<li><p>减少计算量的主要方面：</p>
+<ul>
+<li>1、Token 通道修剪：就是修剪一开始线性生成q，k，v的 feature 的通道D，意味着减少了全连接层的计算量</li>
+<li>2、Token 数量的修剪：就是减少 HW（N）的数量，这会直接影响到2次幂的关键，也是最常见的减少计算量的方式</li>
+<li>3、Attention 通道的修剪：就是减少计算attention时的通道数目。</li>
+</ul>
+</li>
+</ul>
+<h5 id="VIT和CNN的对比分析"><a href="#VIT和CNN的对比分析" class="headerlink" title="VIT和CNN的对比分析"></a>VIT和CNN的对比分析</h5><ul>
+<li>CNN的<strong>归纳偏置</strong>(Inductive Bias)主要有两种：局部感知性(locality )；平移不变性( translation equivariance) ==&gt;需要较少的数据去学好一个模型</li>
+<li>VIT中的自注意力机制层是全局的，比CNN结构少了一定的平移不变性和局部感知性，<strong>在数据量较少的情况下</strong>，效果可能不如CNN模型，但是在大规模数据集上预训练过后，再进行迁移学习，可以在特定任务上达到SOTA性能。</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Vision-Transformer%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Vision-Transformer%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/Transformer/">Transformer</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/image.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%AF%B9%E6%AF%94%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230810/image.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">对比学习相关总结</div></div></a></div><div class="next-post pull-right"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230808/images.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">常见问题总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/Prior-Knowledge/Loss-in-Deep-Learning/" title="Loss_in_Deep_Learning"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230422/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-22</div><div class="title">Loss_in_Deep_Learning</div></div></a></div><div><a href="/人工只能/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/" title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-08</div><div class="title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Metric-in-Semantic-Segmentation/" title="Metric_in_Semantic_Segmentation"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230326/head.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-25</div><div class="title">Metric_in_Semantic_Segmentation</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Regularization-Summary/" title="Regularization_Summary"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230329/head1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-29</div><div class="title">Regularization_Summary</div></div></a></div><div><a href="/人工只能/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/" title="SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers</div></div></a></div><div><a href="/人工只能/papers-ICCV/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Transformer%E7%9A%84%E5%B0%8F%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">Transformer的小总结</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E7%AE%80%E8%A6%81%E4%BB%8B%E7%BB%8D"><span class="toc-number">1.1.</span> <span class="toc-text">Transformer简要介绍</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E7%9A%84%E8%BE%93%E5%85%A5%E6%98%AF%E4%BB%80%E4%B9%88"><span class="toc-number">1.2.</span> <span class="toc-text">Transformer的输入是什么</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9B%BA%E5%AE%9A%E7%BC%96%E7%A0%81%E5%92%8C%E5%8F%AF%E5%AD%A6%E4%B9%A0%E7%BC%96%E7%A0%81%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="toc-number">1.3.</span> <span class="toc-text">固定编码和可学习编码的优缺点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E7%9A%84Encoder%E6%A8%A1%E5%9D%97"><span class="toc-number">1.4.</span> <span class="toc-text">Transformer的Encoder模块</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88transformer%E5%9D%97%E4%BD%BF%E7%94%A8LayerNorm%E8%80%8C%E4%B8%8D%E6%98%AFBatchNorm%EF%BC%9F"><span class="toc-number">1.5.</span> <span class="toc-text">为什么transformer块使用LayerNorm而不是BatchNorm？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E8%BE%93%E5%85%A5%E5%8F%AA%E8%83%BD%E7%9B%B8%E5%8A%A0%E5%90%97%EF%BC%9F"><span class="toc-number">1.6.</span> <span class="toc-text">Transformer输入只能相加吗？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E4%B8%BA%E4%BD%95%E4%BD%BF%E7%94%A8%E5%A4%9A%E5%A4%B4%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6%EF%BC%9F"><span class="toc-number">1.7.</span> <span class="toc-text">Transformer为何使用多头注意力机制？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E4%B8%BA%E4%BB%80%E4%B9%88Q%E5%92%8CK%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%90%8C%E7%9A%84%E6%9D%83%E9%87%8D%E7%9F%A9%E9%98%B5%E7%94%9F%E6%88%90%EF%BC%8C%E4%B8%BA%E4%BD%95%E4%B8%8D%E8%83%BD%E4%BD%BF%E7%94%A8%E5%90%8C%E4%B8%80%E4%B8%AA%E5%80%BC%E8%BF%9B%E8%A1%8C%E8%87%AA%E8%BA%AB%E7%9A%84%E7%82%B9%E4%B9%98%EF%BC%9F"><span class="toc-number">1.8.</span> <span class="toc-text">Transformer为什么Q和K使用不同的权重矩阵生成，为何不能使用同一个值进行自身的点乘？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E8%AE%A1%E7%AE%97attention%E7%9A%84%E6%97%B6%E5%80%99%E4%B8%BA%E4%BD%95%E9%80%89%E6%8B%A9%E7%82%B9%E4%B9%98%E8%80%8C%E4%B8%8D%E6%98%AF%E5%8A%A0%E6%B3%95%EF%BC%9F"><span class="toc-number">1.9.</span> <span class="toc-text">Transformer计算attention的时候为何选择点乘而不是加法？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9C%A8%E8%AE%A1%E7%AE%97attention%E6%97%B6%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%9B%E8%A1%8Csoftmax%E4%B9%8B%E5%89%8D%E9%9C%80%E8%BF%9B%E8%A1%8Cscaled%EF%BC%88%E4%B8%BA%E4%BB%80%E4%B9%88%E9%99%A4%E4%BB%A5dk%E7%9A%84%E5%B9%B3%E6%96%B9%E6%A0%B9%EF%BC%89"><span class="toc-number">1.10.</span> <span class="toc-text">在计算attention时，为什么进行softmax之前需进行scaled（为什么除以dk的平方根）?</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%A7%E6%A6%82%E8%AE%B2%E4%B8%80%E4%B8%8BTransformer%E7%9A%84Decoder%E6%A8%A1%E5%9D%97%EF%BC%9F"><span class="toc-number">1.11.</span> <span class="toc-text">大概讲一下Transformer的Decoder模块？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Decoder%E9%98%B6%E6%AE%B5%E7%9A%84%E5%A4%9A%E5%A4%B4%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E5%92%8Cencoder%E7%9A%84%E5%A4%9A%E5%A4%B4%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%89%E4%BB%80%E4%B9%88%E5%8C%BA%E5%88%AB%EF%BC%9F"><span class="toc-number">1.12.</span> <span class="toc-text">Decoder阶段的多头自注意力和encoder的多头自注意力有什么区别？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Transformer%E7%9A%84%E5%B9%B6%E8%A1%8C%E5%8C%96%E6%8F%90%E7%8E%B0%E5%9C%A8%E5%93%AA%E4%B8%AA%E5%9C%B0%E6%96%B9%EF%BC%9FDecoder%E7%AB%AF%E5%8F%AF%E4%BB%A5%E5%81%9A%E5%B9%B6%E8%A1%8C%E5%8C%96%E5%90%97%EF%BC%9F"><span class="toc-number">1.13.</span> <span class="toc-text">Transformer的并行化提现在哪个地方？Decoder端可以做并行化吗？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%AE%80%E5%8D%95%E6%8F%8F%E8%BF%B0%E4%B8%80%E4%B8%8BTransformer%E4%B8%AD%E7%9A%84%E5%89%8D%E9%A6%88%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%EF%BC%9F%E4%BD%BF%E7%94%A8%E4%BA%86%E4%BB%80%E4%B9%88%E6%BF%80%E6%B4%BB%E5%87%BD%E6%95%B0%EF%BC%9F%E7%9B%B8%E5%85%B3%E4%BC%98%E7%BC%BA%E7%82%B9%EF%BC%9F"><span class="toc-number">1.14.</span> <span class="toc-text">简单描述一下Transformer中的前馈神经网络？使用了什么激活函数？相关优缺点？</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%86%E6%9E%90%E8%AE%A1%E7%AE%97%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="toc-number">1.15.</span> <span class="toc-text">分析计算复杂度</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#VIT%E5%92%8CCNN%E7%9A%84%E5%AF%B9%E6%AF%94%E5%88%86%E6%9E%90"><span class="toc-number">1.16.</span> <span class="toc-text">VIT和CNN的对比分析</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/image.jpg')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

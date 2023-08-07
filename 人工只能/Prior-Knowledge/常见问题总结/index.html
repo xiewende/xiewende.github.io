@@ -1,0 +1,367 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>常见问题总结 | sevenboy</title><meta name="keywords" content="梯度消失, 梯度爆炸, 优化器, 过拟合"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是常用深度学习基础简单总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见问题总结">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是常用深度学习基础简单总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230808/images.png">
+<meta property="article:published_time" content="2023-08-07T14:06:51.000Z">
+<meta property="article:modified_time" content="2023-08-07T14:14:21.610Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="计算机视觉">
+<meta property="article:tag" content="基础问答">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230808/images.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常见问题总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-08-07 22:14:21'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">25</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230808/images.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">常见问题总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-07T14:06:51.000Z" title="发表于 2023-08-07 22:06:51">2023-08-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-07T14:14:21.610Z" title="更新于 2023-08-07 22:14:21">2023-08-07</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/">Prior Knowledge</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.6k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="常见问题总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="深度学习基础常见问题总结"><a href="#深度学习基础常见问题总结" class="headerlink" title="深度学习基础常见问题总结"></a>深度学习基础常见问题总结</h3><h4 id="神经网络中1-1卷积有什么作用？"><a href="#神经网络中1-1卷积有什么作用？" class="headerlink" title="神经网络中1*1卷积有什么作用？"></a>神经网络中1*1卷积有什么作用？</h4><ul>
+<li><p><strong>降维</strong>，减少计算量；在ResNet模块中，先通过11卷积对通道数进行降通道，再送入33的卷积中，能够有效的减少神经网络的参数量和计算量；</p>
+</li>
+<li><p><strong>升维</strong>；用最少的参数拓宽网络通道，通常在轻量级的网络中会用到，经过深度可分离卷积后，使用1*1卷积核增加通道的数量。</p>
+</li>
+<li><p><strong>实现跨通道的交互和信息整合</strong>；增强通道层面上特征融合的信息，在feature map尺度不变的情况下，实现通道升维、降维操作其实就是通道间信息的线性组合变化，也就是通道的信息交互整合的过程；</p>
+</li>
+<li><p><strong>增加非线性</strong>；1*1卷积核可以在保持feature map尺度（不损失分辨率）不变的情况下，大幅增加非线性特性（利用后接的非线性激活函数）。</p>
+</li>
+</ul>
+<p>卷积神经网络中用1*1 卷积有什么作用或者好处呢？</p>
+<ul>
+<li>卷积后再次应用非线性</li>
+</ul>
+<h4 id="梯度消失和梯度爆炸的原因是什么？怎么解决？"><a href="#梯度消失和梯度爆炸的原因是什么？怎么解决？" class="headerlink" title="梯度消失和梯度爆炸的原因是什么？怎么解决？"></a>梯度消失和梯度爆炸的原因是什么？怎么解决？</h4><p>梯度消失和梯度爆炸问题都是因为网络太深，网络权值更新不稳定造成的，本质上是因为梯度反向传播中的连乘效应。</p>
+<ul>
+<li><p><strong>梯度消失和梯度爆炸的概念</strong></p>
+<ul>
+<li><p>根据损失函数计算的误差通过梯度<strong>反向传播</strong>的方式对深度网络权值进行更新时，得到的<strong>梯度值接近0</strong>或<strong>特别大</strong>，也就是<strong>梯度消失</strong>或<strong>爆炸</strong>。梯度消失或梯度爆炸在本质原理上其实是一样的。</p>
+</li>
+<li><p>梯度消失：令bias=0，则神经网络的输出结果等于各层权重参数的积再与输入数据集相乘，若参数值较小时，则权重参数呈指数级减小。</p>
+</li>
+<li>梯度爆炸：令bias=0，则神经网络的输出结果等于各层权重参数的积再与输入数据集相乘，若参数值较大时，则权重参数呈指数级增长。</li>
+</ul>
+</li>
+<li><p><strong>分析产生梯度消失和梯度爆炸的原因</strong></p>
+<ul>
+<li><p><strong>【梯度消失】</strong>：(1) 深层网络；(2) 不合适的激活函数（sigmoid）</p>
+</li>
+<li><p><strong>【梯度爆炸】</strong>：(1) 深层网络；(2) 权重初始值太大</p>
+</li>
+<li><p>深层网络：</p>
+<p>由于深度网络是多层非线性函数的堆砌，整个深度网络可以视为是一个<strong>复合的非线性多元函数</strong>（这些非线性多元函数其实就是每层的激活函数），那么对loss function求不同层的权值偏导，相当于应用梯度下降的链式法则，链式法则是一个连乘的形式，所以当层数越深的时候，梯度将以指数传播。</p>
+<p>如果接近输出层的激活函数求导后梯度值大于1，那么层数增多的时候，最终求出的梯度很容易指数级增长，就会产生<strong>梯度爆炸</strong>；相反，如果小于1，那么经过链式法则的连乘形式，也会很容易衰减至0，就会产生<strong>梯度消失</strong>。</p>
+<p>从深层网络角度来讲，不同的层学习的速度差异很大，表现为网络中靠近输出的层学习的情况很好，靠近输入的层学习的很慢，有时甚至训练了很久，前几层的权值和刚开始随机初始化的值差不多。因此，梯度消失、爆炸，其根本原因在于反向传播训练法则，属于先天不足。</p>
+</li>
+<li><p>激活函数：</p>
+<p>类似 <strong>sigmoid 激活函数</strong>，在链式求导梯度回传过程中，返回的值很小，层数越多，求导结果越小，最终导致梯度消失的情况出现。</p>
+</li>
+<li><p>初始化权重过大</p>
+<p>权重比较大的情况。根据链式相乘(反向传播)可得，则前面的网络层比后面的网络层梯度变化更快，很容易发生梯度爆炸的问题。所以在一般的神经网络中，权重的初始化一般都利用高斯分布(正态分布)随机产生权重值。</p>
+</li>
+</ul>
+</li>
+<li><p><strong>梯度消失和梯度爆炸的解决方案</strong></p>
+<ul>
+<li><p><strong>pre-training + fine-tunning</strong></p>
+<p>Hinton在训练深度信念网络（Deep Belief Networks中，使用了这个方法，在各层预训练完成后，再利用BP算法对整个网络进行训练。此思想相当于是先寻找局部最优，然后整合起来寻找全局最优，此方法有一定的好处，但是目前应用的不是很多了。</p>
+</li>
+<li><p><strong>梯度剪切：对梯度设定阈值</strong></p>
+<p><strong>梯度剪切</strong>这个方案主要是针对梯度爆炸提出的，其思想是设置一个梯度剪切阈值，然后更新梯度的时候，如果梯度超过这个阈值，那么就将其强制限制在这个范围之内。这可以防止梯度爆炸。</p>
+</li>
+<li><p><strong>权重正则化</strong></p>
+<p>解决梯度爆炸的手段是采用权重正则化（weithts regularization），正则化主要是通过对网络权重做正则来限制过拟合。如果发生梯度爆炸，那么权值就会变的非常大，反过来，通过正则化项来限制权重的大小，也可以在一定程度上防止梯度爆炸的发生。比较常见的是 L1 正则和 L2 正则，在各个深度框架中都有相应的API可以使用正则化。</p>
+</li>
+<li><p><strong>选择 relu，leakrelu，elu等梯度大部分在常数上的激活函数</strong></p>
+<p>relu函数的导数在正数部分是恒等于1的，因此在深层网络中使用relu激活函数就不会导致梯度消失和爆炸的问题。</p>
+</li>
+<li><p><strong>Batch Normalizaition (BN)</strong></p>
+<p>BN就是通过对每一层的输出规范为均值和方差一致的方法，消除了权重参数放大缩小带来的影响，进而解决梯度消失和爆炸的问题，或者可以理解为BN将输出从饱和区拉倒了非饱和区。</p>
+</li>
+<li><p><strong>残差结构（shortcut）</strong></p>
+<p>比较于以前直来直去的网络结构，残差中有很多的跨层连接结构，这样的结构在反向传播中具有很大的好处，可以避免梯度消失。kaiming大佬的杰作！</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="欠拟合和过拟合"><a href="#欠拟合和过拟合" class="headerlink" title="欠拟合和过拟合"></a>欠拟合和过拟合</h4><ul>
+<li><p>欠拟合是指模型不能在训练集上获得足够低的误差。</p>
+</li>
+<li><p>过拟合是指训练误差和测试误差之间的差距太大，神经网络对训练数据进行很好的建模但在看到来自同一问题域的新数据时失败的现象。</p>
+<p><strong>模型容量低，而训练数据复杂度高</strong>时，此时模型由于学习能力不足，无法学习到数据集中的“一般规律”，因而导致训练误差高，表现为欠拟合。</p>
+<p><strong>模型容量高，而训练数据简单</strong>时，此时模型由于学习能力太强，记住所有的训练数据，却没有理解数据背后的规律，对于训练集以外的数据泛化能力差，表现为过拟合。</p>
+</li>
+</ul>
+<h5 id="解决欠拟合"><a href="#解决欠拟合" class="headerlink" title="解决欠拟合"></a>解决欠拟合</h5><ul>
+<li>在模型容量和训练数据复杂度不匹配时，发生了欠拟合现象，常见解决方法有：</li>
+<li><strong>增加新特征</strong>：可以考虑加入特征组合、高次特征等，来增大假设空间。</li>
+<li><strong>增大模型容量</strong>：容量低的模型可能很难拟合训练集。</li>
+<li><strong>减少正则化参数</strong>：正则化的目的是用来防止过拟合的，但是模型出现了欠拟合，则需要减少正则化参数。</li>
+</ul>
+<h5 id="解决过拟合"><a href="#解决过拟合" class="headerlink" title="解决过拟合"></a>解决过拟合</h5><p><strong>引起过拟合</strong>的主演原因如下：</p>
+<ul>
+<li><strong>训练数据集问题</strong>。如训练样本不均衡，训练集中正样本偏多，那么去预测负样本肯定不准；训练样本数据少，尤其是当比模型参数数量还少时，更容易发生过拟合；训练数据噪声干扰过大，模型会学习很多的噪声特征等。</li>
+<li><strong>模型过于复杂</strong>。模型参数数量太多，参数取值范围太大，模型已经能够“死记硬背”记下了所有训练数据的信息（记住了不适合于测试集的训练集特性）；模型假设的合理性不存在，也就是假设成立的条件实际并不成立。</li>
+<li><strong>模型训练迭代次数太多</strong>。对数据反复地训练也可能会让模型拟合了训练样本中没有代表性的特征</li>
+</ul>
+<p><strong>解决过拟合问题</strong>，最重要的减少测试误差而不过度增加训练误差，从而提高模型的泛化能力。通常解决过拟合的方法有：</p>
+<ul>
+<li>数据集增强</li>
+<li>控制模型容量大小</li>
+<li>正则化（Regularization）L1和L2</li>
+<li>丢弃法（Dropout）</li>
+<li>提前终止训练（Early Stopping）</li>
+</ul>
+<h4 id="Loss为Nan，为何？怎么解决？"><a href="#Loss为Nan，为何？怎么解决？" class="headerlink" title="Loss为Nan，为何？怎么解决？"></a>Loss为Nan，为何？怎么解决？</h4><ul>
+<li><p>排查顺序</p>
+<ul>
+<li>是否有脏数据，训练数据（包括标签）是否有异常值（nan，inf等）</li>
+<li>网络中是否有除法，分母可能出现0的情况，这种情况一般添加一个平滑项，+ eps=1e-8</li>
+<li>开跟号，也是要保证根号下 &gt;= 0的，这种情况也是添加平滑项</li>
+<li>在某些涉及指数计算，可能最后算得值为INF（无穷）（比如不做其他处理的softmax中分子分母需要计算exp(x)，值过大，最后可能为INF/INF，得到NaN，此时你要确认你使用的softmax中在计算exp(x)做了相关处理（比如减去最大值等等））</li>
+</ul>
+</li>
+<li><p>典型案例</p>
+<ul>
+<li><p>梯度爆炸，</p>
+<p>梯度变得非常大，使得学习过程难以继续。Loss随着每轮迭代越来越大，最终超过了浮点型表示范围，就变成NaN了，</p>
+<p>改善措施：数据归一化(BN,L2 norm等)；参数初始方法；学习率；batch-size；梯度截断；</p>
+</li>
+<li><p>不当的损失函数，</p>
+<p>有时候损失层中loss的计算可能导致NaN的出现。比如，给InfogainLoss层（信息熵损失）输入没有归一化的值，使用带有bug的自定义损失层等等。</p>
+<p>改善措施：重现错误，逐步排查。</p>
+</li>
+<li><p>不当的输入，</p>
+<p>就是 training sample中出现了脏数据，脏数据导致网络输出的logits计算出了0，0计算损失得到NaN，</p>
+<p>改善措施：找到脏数据剔除即可，设置batch-size=1，一个一个来判断。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="深度学习中常用的优化器"><a href="#深度学习中常用的优化器" class="headerlink" title="深度学习中常用的优化器"></a>深度学习中常用的优化器</h4><p>Pytorch中优化器的目的：将损失函数计算出来的插值Loss减少。</p>
+<p>优化过程：优化器计算网络参数的梯度，然后使用一定的算法策略来对参数进行计算，用新的参数来重进行训练，最终降低Loss。</p>
+<ul>
+<li><p><strong>SGD算法</strong></p>
+<p><strong>SGD算法可以实现随机梯度下降，融合了动量梯度，权重衰减，没有自适应学习率机制，但仔细调参最终模型效果可能最好</strong></p>
+<p>基本思想：<strong>通过当前梯度和历史梯度共同调节梯度的方向和大小</strong>，<strong>所有参数共享一个学习率，对学习率敏感</strong></p>
+<p><code>torch.optim.SGD(params, lr= , momentum=0, damening=0, weight_decay=0, nesterov=False)</code></p>
+<ul>
+<li>params：可迭代参数以优化或定义参数组</li>
+<li>lr：初始学习率，可随着训练过程不断调整学习率</li>
+<li>momentum：动量，通常设置为0.9，0.8，又称动量梯度下降</li>
+<li>damening：动量阻尼，默认为0</li>
+<li>weight_decay：权值衰减系数，即L2正则化</li>
+</ul>
+</li>
+<li><p>Adagrad算法</p>
+<p><strong>Adagrad(Adaptive Gradient)的核心思想是</strong>，深度模型带来的稀疏性，导致模型中一些参数可能频繁获得较大梯度，另一些参数偶尔获得较大梯度，若采用统一学习率导致后者的更新会非常缓慢。<strong>基于此，可以调节模型中不同参数的学习率，而不是用统一的学习率</strong>。如果一个参数的历史累计梯度更新量大，则降低该参数的学习率；如果一个参数的历史累计梯度更新量小，则增大该参数的学习率。</p>
+<ul>
+<li><p>Adagrad算法可以自适应的给所有的参数分配学习率，学习率的大小与梯度的大小成反比。</p>
+</li>
+<li><p>因为梯度有正有负所以对梯度的平方进行累计。</p>
+</li>
+<li>对每个参数分别调节学习率，也可以看成调节每个参数的梯度。</li>
+<li>缺点是随着迭代次数增多，累计值越来越大，导致模型参数的实际更新越来微弱</li>
+</ul>
+</li>
+<li><p>RMSprop算法</p>
+<p>RMSprop算法是Adagrad的改进形式，特点是使用<strong>指数衰减滑动平均来更新梯度平方</strong>，以避免Adagrad累计梯度平方导致学习率过小的缺点。区别于adagrad之处是它采用了EMA方式来统计每个参数的最近的累计梯度量，所以多次迭代后不会导致模型参数更新缓慢。</p>
+</li>
+<li><p><strong>Adam算法</strong></p>
+<p><strong>Adam(Adaptive Moment Estimation)优化算法，整合了RMSprop中的自适应梯度机制和动量梯度机制。Adam优化器实现中还加入了权重衰减机制。</strong></p>
+<p><strong>可以自适应调节模型中不同参数的学习率，而不是用统一的学习率，所以对学习率相对不敏感。</strong> </p>
+<p><code>torch.optim.Adam(network.parameters(), lr=learning_rate, betas=(0.9, 0.999), eps=1e-8, weight_decay=0.01, amsgrad=False)</code></p>
+</li>
+<li><p>AdamW算法</p>
+<p>AdamW优化器修正了Adam中权重衰减的bug。</p>
+</li>
+<li><p><strong>总结</strong>：</p>
+<ul>
+<li><strong>SGD：没有自适应学习率机制，但仔细调参最终模型效果可能最好，需要慢慢调节学习率可以最佳效果。</strong></li>
+<li><strong>Adam：学习率相对不敏感，减少调参试验代价，没有条件调参建议采用也可以达到较好的水平。但weight decay实现不好，能用Adam的地方可以都用AdamW来代替。</strong></li>
+<li><strong>AdamW：相对于Adam，权重衰减（weight decay）实现解耦，效果更好，可代替Adam。</strong></li>
+</ul>
+</li>
+</ul>
+<h4 id="为什么输入网络前要对图像做归一化？"><a href="#为什么输入网络前要对图像做归一化？" class="headerlink" title="为什么输入网络前要对图像做归一化？"></a>为什么输入网络前要对图像做归一化？</h4></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E8%A7%86%E8%A7%89/">计算机视觉</a><a class="post-meta__tags" href="/tags/%E5%9F%BA%E7%A1%80%E9%97%AE%E7%AD%94/">基础问答</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230808/images.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/Vision-Transformer%E7%9B%B8%E5%85%B3%E6%80%BB%E7%BB%93/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230809/image.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">Vision_Transformer相关总结</div></div></a></div><div class="next-post pull-right"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E7%94%A8Attention%E6%80%BB%E7%BB%93/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230808/image12.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">常用Attention总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/Prior-Knowledge/Loss-in-Deep-Learning/" title="Loss_in_Deep_Learning"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230422/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-22</div><div class="title">Loss_in_Deep_Learning</div></div></a></div><div><a href="/人工只能/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/" title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-08</div><div class="title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Metric-in-Semantic-Segmentation/" title="Metric_in_Semantic_Segmentation"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230326/head.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-25</div><div class="title">Metric_in_Semantic_Segmentation</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Regularization-Summary/" title="Regularization_Summary"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230329/head1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-29</div><div class="title">Regularization_Summary</div></div></a></div><div><a href="/人工只能/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/" title="SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers</div></div></a></div><div><a href="/人工只能/papers-ICCV/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E5%9F%BA%E7%A1%80%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">深度学习基础常见问题总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD1-1%E5%8D%B7%E7%A7%AF%E6%9C%89%E4%BB%80%E4%B9%88%E4%BD%9C%E7%94%A8%EF%BC%9F"><span class="toc-number">1.1.</span> <span class="toc-text">神经网络中1*1卷积有什么作用？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A2%AF%E5%BA%A6%E6%B6%88%E5%A4%B1%E5%92%8C%E6%A2%AF%E5%BA%A6%E7%88%86%E7%82%B8%E7%9A%84%E5%8E%9F%E5%9B%A0%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="toc-number">1.2.</span> <span class="toc-text">梯度消失和梯度爆炸的原因是什么？怎么解决？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%AC%A0%E6%8B%9F%E5%90%88%E5%92%8C%E8%BF%87%E6%8B%9F%E5%90%88"><span class="toc-number">1.3.</span> <span class="toc-text">欠拟合和过拟合</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E6%AC%A0%E6%8B%9F%E5%90%88"><span class="toc-number">1.3.1.</span> <span class="toc-text">解决欠拟合</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E8%A7%A3%E5%86%B3%E8%BF%87%E6%8B%9F%E5%90%88"><span class="toc-number">1.3.2.</span> <span class="toc-text">解决过拟合</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Loss%E4%B8%BANan%EF%BC%8C%E4%B8%BA%E4%BD%95%EF%BC%9F%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%9F"><span class="toc-number">1.4.</span> <span class="toc-text">Loss为Nan，为何？怎么解决？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E4%BC%98%E5%8C%96%E5%99%A8"><span class="toc-number">1.5.</span> <span class="toc-text">深度学习中常用的优化器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BE%93%E5%85%A5%E7%BD%91%E7%BB%9C%E5%89%8D%E8%A6%81%E5%AF%B9%E5%9B%BE%E5%83%8F%E5%81%9A%E5%BD%92%E4%B8%80%E5%8C%96%EF%BC%9F"><span class="toc-number">1.6.</span> <span class="toc-text">为什么输入网络前要对图像做归一化？</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230808/images.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
