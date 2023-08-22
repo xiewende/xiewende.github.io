@@ -1,0 +1,261 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>图像处理算法总结 | sevenboy</title><meta name="keywords" content="图像滤波, 边缘检测"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是常用图像处理算法的的简单总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图像处理算法总结">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是常用图像处理算法的的简单总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230823/image1.png">
+<meta property="article:published_time" content="2023-08-22T16:48:26.000Z">
+<meta property="article:modified_time" content="2023-08-22T16:58:19.606Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="图像处理">
+<meta property="article:tag" content="Image Processing">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230823/image1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '图像处理算法总结',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-08-23 00:58:19'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">27</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">31</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230823/image1.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">图像处理算法总结</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-08-22T16:48:26.000Z" title="发表于 2023-08-23 00:48:26">2023-08-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-08-22T16:58:19.606Z" title="更新于 2023-08-23 00:58:19">2023-08-23</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/">Prior Knowledge</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.8k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>6分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="图像处理算法总结"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="图像处理的简单总结"><a href="#图像处理的简单总结" class="headerlink" title="图像处理的简单总结"></a>图像处理的简单总结</h3><h4 id="图像滤波简介"><a href="#图像滤波简介" class="headerlink" title="图像滤波简介"></a>图像滤波简介</h4><p>图像滤波，就是在尽量保留图像细节特征的条件下对目标图像的噪声进行抑制，是图像预处理中不可缺少的操作，其处理效果的好坏将直接影响到后面图像处理和分析的有效性和可靠性。</p>
+<p>图像滤波按照图像域可分为两种类型：</p>
+<ul>
+<li><p>领域滤波：其本质就是数字窗口上的数学运算。一般用于图像平滑、图像锐化、特征提取(如纹理测量、边缘检测)等，邻域滤波使用邻域算子，利用给定像素周围像素值以决定此像素最终输出的一种算子。邻域滤波方式又分为线性滤波和非线性滤波，其中线性滤波包括<strong>均值滤波、方框滤波和高斯滤波</strong>等，非线性滤波包括中<strong>值滤波和双边滤波</strong>等。</p>
+</li>
+<li><p>频域滤波：其本质是对像素频率的修改。一般用于降噪、重采样、图像压缩等。按图像频率滤除效果主要分为两种类型：<strong>低通滤波（滤除原图像的高频成分，即模糊图像边缘与细节）和高通滤波（滤除原图像的低频成分，即图像锐化，图像细节增强）。</strong></p>
+<p>高频：变化剧烈的灰度分量，例如边界；低频：变化缓慢的灰度，例如一片大海</p>
+</li>
+</ul>
+<h5 id="均值滤波"><a href="#均值滤波" class="headerlink" title="均值滤波"></a>均值滤波</h5><ul>
+<li><p>均值滤波采用多次<strong>测量取平均</strong>的思想，用每一个像素周围的像素的平均值代替自身。均值滤波是方框滤波归一化后的特殊情况。</p>
+</li>
+<li><p>取卷积核（kernel）区域下的所有像素的平均值来替换中心元素。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230824/1.png" alt=""></p>
+</li>
+<li><p><strong>优点</strong>：能够将受到噪声影响的像素使用该噪声周围的像素值进行修复，对椒盐噪声的滤除比较好。</p>
+</li>
+<li><p><strong>缺点</strong>：不能很好地保护图像细节，在图像去噪的同时也破坏了图像的细节部分，从而使图像变得模糊。</p>
+</li>
+</ul>
+<h5 id="方框滤波"><a href="#方框滤波" class="headerlink" title="方框滤波"></a>方框滤波</h5><ul>
+<li><p>与均值滤波不同的是，方框滤波不会计算像素的均值。在均值滤波中，滤波结果的像素值是任意一个点的邻域平均值，等于各邻域像素值之和除以邻域面积。在方框滤波中，可以自由选择是否对均值滤波的结果进行归一化，即可以自由选择滤波结果是邻域像素值之和的平均值，还是邻域像素值之和。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230824/2.png" alt=""></p>
+</li>
+<li><p>当normalize=True时，与均值滤波结果相同；</p>
+</li>
+<li><p>当normalize=False时，表示对加和后的结果不进行平均操作，大于255的使用255表示。</p>
+</li>
+</ul>
+<h5 id="高斯滤波"><a href="#高斯滤波" class="headerlink" title="高斯滤波"></a>高斯滤波</h5><ul>
+<li>高斯滤波(Gauss Filter)基于二维高斯核函数。用一个模板（或称卷积、掩模）扫描图像中的每一个像素，用模板确定的邻域内像素的<strong>加权平均灰度值</strong>去替代模板中心像素点的值。高<strong>斯滤波主要用来去除高斯噪声</strong>。</li>
+<li>高斯滤波具有在保持细节的条件下进行噪声滤波的能力，因此广泛应用于图像降噪中，但其效率比均值滤波低。</li>
+</ul>
+<h5 id="中值滤波"><a href="#中值滤波" class="headerlink" title="中值滤波"></a>中值滤波</h5><ul>
+<li><p>中值滤波将待处理的像素与其周围像素（包括自身）从小到大排序，取中值代替该像素。</p>
+</li>
+<li><p>优点：去除脉冲噪声、椒盐噪声的同时又能保留图像边缘细节。</p>
+</li>
+<li>缺点：当卷积核较大时，仍然使得图像变得模糊，而且计算量很大。</li>
+</ul>
+<h5 id="双边滤波"><a href="#双边滤波" class="headerlink" title="双边滤波"></a>双边滤波</h5><ul>
+<li><p>因为高斯滤波把距离设为权重，设计滤波模板作为滤波系数，并且只考虑像素之间的空间位置关系，所以滤波结果丢失了边缘信息。</p>
+</li>
+<li><p>双边滤波器顾名思义比高斯滤波多了一个高斯方差sigma－d，它是基于空间分布的高斯滤波函数，所以在边缘附近，离的较远的像素不会太多影响到边缘上的像素值，这样就保证了边缘附近像素值的保存。但是由于保存了过多的高频信息，对于彩色图像里的高频噪声，双边滤波器不能够干净的滤掉，只能够对于低频信息进行较好的滤波。</p>
+</li>
+</ul>
+<h5 id="低通滤波"><a href="#低通滤波" class="headerlink" title="低通滤波"></a>低通滤波</h5><ul>
+<li><p>规则为低频信息能正常通过，而超过设定临界值的高频信息则被阻隔、减弱。但是阻隔、减弱的幅度则会依据不同的频率以及不同的滤波程序（目的）而改变。</p>
+</li>
+<li><p><strong>低通滤波，通过了低频信息，保留了图像背景和基本内容，图像边缘被阻挡，图像变模糊。</strong></p>
+</li>
+</ul>
+<h5 id="高通滤波"><a href="#高通滤波" class="headerlink" title="高通滤波"></a>高通滤波</h5><ul>
+<li><p>规则为高频信息能正常通过，而低于设定临界值的低频信息则被阻隔、减弱。但是阻隔、减弱的幅度则会依据不同的频率以及不同的滤波程序(目的)而改变。</p>
+</li>
+<li><p><strong>高通滤波，通过了高频信息，提取了图像边缘和噪声。</strong></p>
+</li>
+</ul>
+<h5 id="opencv-python中各种滤波方法的应用"><a href="#opencv-python中各种滤波方法的应用" class="headerlink" title="opencv-python中各种滤波方法的应用"></a>opencv-python中各种滤波方法的应用</h5><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">from PIL import Image</span><br><span class="line">import cv2 as cv</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">img = cv.imread(&#x27;lenna.jpg&#x27;)</span><br><span class="line"></span><br><span class="line"># 均值滤波</span><br><span class="line">img_blur = cv.blur(img, (3,3)) # (3,3)代表卷积核尺寸，随着尺寸变大，图像会越来越模糊</span><br><span class="line">img_blur = cv.cvtColor(img_blur, cv.COLOR_BGR2RGB) # BGR转化为RGB格式</span><br><span class="line"></span><br><span class="line"># 方框滤波</span><br><span class="line">img_boxFilter1 = cv.boxFilter(img, -1, (3,3), normalize=True) # 当 normalize=True 时，与均值滤波结果相同</span><br><span class="line">img_boxFilter1 = cv.cvtColor(img_boxFilter1, cv.COLOR_BGR2RGB) # BGR转化为RGB格式</span><br><span class="line"></span><br><span class="line">img_boxFilter2 = cv.boxFilter(img, -1, (3,3), normalize=False)</span><br><span class="line">img_boxFilter2 = cv.cvtColor(img_boxFilter2, cv.COLOR_BGR2RGB) # BGR转化为RGB格式</span><br><span class="line"></span><br><span class="line"># 高斯滤波</span><br><span class="line">img_GaussianBlur= cv.GaussianBlur(img, (3,3), 0, 0) # 参数说明：(源图像，核大小，x方向的标准差，y方向的标准差)</span><br><span class="line">img_GaussianBlur = cv.cvtColor(img_GaussianBlur, cv.COLOR_BGR2RGB) # BGR转化为RGB格式</span><br><span class="line"></span><br><span class="line"># 中值滤波</span><br><span class="line">img_medianBlur = cv.medianBlur(img, 3)</span><br><span class="line">img_medianBlur = cv.cvtColor(img_medianBlur, cv.COLOR_BGR2RGB) # BGR转化为RGB格式</span><br><span class="line"></span><br><span class="line"># 双边滤波</span><br><span class="line"># 参数说明：(源图像，核大小，sigmaColor，sigmaSpace)</span><br><span class="line">img_bilateralFilter=cv.bilateralFilter(img, 50, 100, 100)</span><br><span class="line">img_bilateralFilter = cv.cvtColor(img_bilateralFilter, cv.COLOR_BGR2RGB) # BGR转化为RGB格式</span><br><span class="line"></span><br><span class="line">titles = [&#x27;img_blur&#x27;, &#x27;img_boxFilter1&#x27;, &#x27;img_boxFilter2&#x27;,</span><br><span class="line">          &#x27;img_GaussianBlur&#x27;, &#x27;img_medianBlur&#x27;, &#x27;img_bilateralFilter&#x27;]</span><br><span class="line">images = [img_blur, img_boxFilter1, img_boxFilter2, img_GaussianBlur, img_medianBlur, img_bilateralFilter]</span><br><span class="line"></span><br><span class="line"># 低通滤波</span><br><span class="line">def Low_Pass_Filter(srcImg_path):</span><br><span class="line">    #img = cv.imread(&#x27;srcImg_path&#x27;, 0)</span><br><span class="line">    img = np.array(Image.open(srcImg_path))</span><br><span class="line">    img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)</span><br><span class="line"></span><br><span class="line">    # 傅里叶变换</span><br><span class="line">    dft = cv.dft(np.float32(img), flags = cv.DFT_COMPLEX_OUTPUT)</span><br><span class="line">    fshift = np.fft.fftshift(dft)</span><br><span class="line"></span><br><span class="line">    # 设置低通滤波器</span><br><span class="line">    rows, cols = img.shape</span><br><span class="line">    crow, ccol = int(rows/2), int(cols/2) # 中心位置</span><br><span class="line">    mask = np.zeros((rows, cols, 2), np.uint8)</span><br><span class="line">    mask[crow-30:crow+30, ccol-30:ccol+30] = 1</span><br><span class="line"></span><br><span class="line">    # 掩膜图像和频谱图像乘积</span><br><span class="line">    f = fshift * mask</span><br><span class="line"></span><br><span class="line">    # 傅里叶逆变换</span><br><span class="line">    ishift = np.fft.ifftshift(f)</span><br><span class="line">    iimg = cv.idft(ishift)</span><br><span class="line">    res = cv.magnitude(iimg[:,:,0], iimg[:,:,1])</span><br><span class="line">    </span><br><span class="line">    return res</span><br><span class="line"></span><br><span class="line"># 高通滤波</span><br><span class="line">def High_Pass_Filter(srcImg_path):</span><br><span class="line">    #img = cv.imread(srcImg_path, 0)</span><br><span class="line">    img = np.array(Image.open(srcImg_path))</span><br><span class="line">    img = cv.cvtColor(img,cv.COLOR_BGR2GRAY)</span><br><span class="line"></span><br><span class="line">    # 傅里叶变换</span><br><span class="line">    dft = cv.dft(np.float32(img), flags = cv.DFT_COMPLEX_OUTPUT)</span><br><span class="line">    fshift = np.fft.fftshift(dft)</span><br><span class="line"></span><br><span class="line">    # 设置高通滤波器</span><br><span class="line">    rows, cols = img.shape</span><br><span class="line">    crow, ccol = int(rows/2), int(cols/2) # 中心位置</span><br><span class="line">    mask = np.ones((rows, cols, 2), np.uint8)</span><br><span class="line">    mask[crow-30:crow+30, ccol-30:ccol+30] = 0</span><br><span class="line"></span><br><span class="line">    # 掩膜图像和频谱图像乘积</span><br><span class="line">    f = fshift * mask</span><br><span class="line"></span><br><span class="line">    # 傅里叶逆变换</span><br><span class="line">    ishift = np.fft.ifftshift(f)</span><br><span class="line">    iimg = cv.idft(ishift)</span><br><span class="line">    res = cv.magnitude(iimg[:,:,0], iimg[:,:,1])</span><br><span class="line">    return res</span><br></pre></td></tr></table></figure>
+<p><img src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230824/5.png" style="zoom:50%;" /></p>
+<h4 id="边缘检测"><a href="#边缘检测" class="headerlink" title="边缘检测"></a>边缘检测</h4></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/">图像处理</a><a class="post-meta__tags" href="/tags/Image-Processing/">Image Processing</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230823/image1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E7%94%A8%E5%8D%B7%E7%A7%AF%E6%80%BB%E7%BB%93/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230807/images.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">常用卷积总结</div></div></a></div><div class="next-post pull-right"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230823/image.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">机器学习相关算法总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/" title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-08</div><div class="title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Loss-in-Deep-Learning/" title="Loss_in_Deep_Learning"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230422/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-22</div><div class="title">Loss_in_Deep_Learning</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Metric-in-Semantic-Segmentation/" title="Metric_in_Semantic_Segmentation"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230326/head.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-25</div><div class="title">Metric_in_Semantic_Segmentation</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Regularization-Summary/" title="Regularization_Summary"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230329/head1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-29</div><div class="title">Regularization_Summary</div></div></a></div><div><a href="/人工只能/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/" title="SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers</div></div></a></div><div><a href="/人工只能/papers-ICCV/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%9A%84%E7%AE%80%E5%8D%95%E6%80%BB%E7%BB%93"><span class="toc-number">1.</span> <span class="toc-text">图像处理的简单总结</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E5%83%8F%E6%BB%A4%E6%B3%A2%E7%AE%80%E4%BB%8B"><span class="toc-number">1.1.</span> <span class="toc-text">图像滤波简介</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%9D%87%E5%80%BC%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.1.1.</span> <span class="toc-text">均值滤波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%96%B9%E6%A1%86%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.1.2.</span> <span class="toc-text">方框滤波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AB%98%E6%96%AF%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.1.3.</span> <span class="toc-text">高斯滤波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%B8%AD%E5%80%BC%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.1.4.</span> <span class="toc-text">中值滤波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%8C%E8%BE%B9%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.1.5.</span> <span class="toc-text">双边滤波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E4%BD%8E%E9%80%9A%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.1.6.</span> <span class="toc-text">低通滤波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%AB%98%E9%80%9A%E6%BB%A4%E6%B3%A2"><span class="toc-number">1.1.7.</span> <span class="toc-text">高通滤波</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#opencv-python%E4%B8%AD%E5%90%84%E7%A7%8D%E6%BB%A4%E6%B3%A2%E6%96%B9%E6%B3%95%E7%9A%84%E5%BA%94%E7%94%A8"><span class="toc-number">1.1.8.</span> <span class="toc-text">opencv-python中各种滤波方法的应用</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%BE%B9%E7%BC%98%E6%A3%80%E6%B5%8B"><span class="toc-number">1.2.</span> <span class="toc-text">边缘检测</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230823/image1.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
