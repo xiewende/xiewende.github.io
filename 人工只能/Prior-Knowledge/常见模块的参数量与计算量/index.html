@@ -1,0 +1,286 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>常见模块的参数量与计算量 | sevenboy</title><meta name="keywords" content="参数量, 计算量"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是深度学习中的常用参数量和计算量的总结">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见模块的参数量与计算量">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是深度学习中的常用参数量和计算量的总结">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image.png">
+<meta property="article:published_time" content="2023-10-19T14:36:49.000Z">
+<meta property="article:modified_time" content="2023-10-19T14:40:12.295Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="参数量与计算量">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常见模块的参数量与计算量',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-10-19 22:40:12'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">常见模块的参数量与计算量</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-19T14:36:49.000Z" title="发表于 2023-10-19 22:36:49">2023-10-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-19T14:40:12.295Z" title="更新于 2023-10-19 22:40:12">2023-10-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/">Prior Knowledge</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">859</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>3分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="常见模块的参数量与计算量"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h3 id="计算量（FLOPs）和参数量（Parameters）"><a href="#计算量（FLOPs）和参数量（Parameters）" class="headerlink" title="计算量（FLOPs）和参数量（Parameters）"></a>计算量（FLOPs）和参数量（Parameters）</h3><ul>
+<li><strong>FLOPS(全大写)</strong>：是floating point operations per second的缩写，意指每秒浮点运算次数，理解为<strong>计算速度，是一个衡量硬件性能的指标</strong>。</li>
+<li><strong>FLOPs(s小写)</strong>：，是floating point operations的缩写（s表复数），意指浮点运算数，理解为计算量，可以用来<strong>衡量算法/模型的复杂度</strong>，也就是我们这里要讨论的计算量。</li>
+</ul>
+<ul>
+<li><strong>参数定义（下同）：$C_{int}$为输入通道数，k 为卷积核边长， $C_{out}$为输出通道数，$H_{out}*W_{out}$ 为输出特征图的长宽。</strong></li>
+<li><strong>FLOPs = Paras <em> $H_{out}</em>W_{out}$</strong> ；大致是这样的，参数量是和输入特征图大小无关的。</li>
+</ul>
+<h4 id="标准卷积层"><a href="#标准卷积层" class="headerlink" title="标准卷积层"></a>标准卷积层</h4><ul>
+<li><p>Parameters：</p>
+<ul>
+<li>考虑 bias：$(k^2<em>C_{int}+1)</em>C_{out}$</li>
+<li>不考虑 bias：$(k^2<em>C_{int})</em>C_{out}$</li>
+</ul>
+</li>
+<li><p>FLOPs:</p>
+<ul>
+<li>考虑 bias：$(2<em>C_{int}</em>k^2)<em>C_{out}</em>H_{out}*W_{out}$</li>
+<li>不考虑 bias：$(2<em>C_{int}</em>k^2-1)<em>C_{out}</em>H_{out}*W_{out}$</li>
+</ul>
+</li>
+<li><p>其实卷积层在实现的时候可以选择加bias或者不加，在很多的框架当中是一个可以选择的参数，为了严谨，这里特地提一下。</p>
+</li>
+<li><p>如何理解公式？在不考虑 bias的情况下，我们先计算输出feature map中的一个pixel的计算量，然后乘以feature map的规模大小即可，所以主要分析下面FLOPs中的括号部分：</p>
+<script type="math/tex; mode=display">
+(2*C_{int}*k^2-1) = C_{int}*k^2 + C_{int}*k^2-1</script><p>可以看成两个部分，<strong>第一项是乘法运算，第二项是加法运算，因为n个数相加，要加n-1次</strong>。所以不考虑 bias，会有一个-1，如果考虑bias，刚刚好中和掉了。✖️️2是因为有$C_{int}<em>k^2$次乘法和$C_{int}</em>k^2$次加法？？</p>
+</li>
+</ul>
+<h4 id="深度可分离卷积"><a href="#深度可分离卷积" class="headerlink" title="深度可分离卷积"></a>深度可分离卷积</h4><p>深度可分离卷积可分为两个部分，第一部分是分通道卷积（深度卷积），另一部分是1*1卷积，两部分相加即可！</p>
+<ul>
+<li><p>Parameters：（不考虑bias）</p>
+<ul>
+<li>深度卷积：$k^2*C_{int}$</li>
+<li>1*1卷积：$(1<em>1</em>C_{int})*C_{out}$</li>
+</ul>
+</li>
+<li><p>FLOPs：（考虑bias）</p>
+<ul>
+<li>深度卷积：$(2<em>k^2 )</em>C_{int}<em>H_{out}</em>W_{out}$</li>
+<li>1*1卷积：$2<em>C_{int}</em>C_{out}<em>H_{out}</em>W_{out}$</li>
+</ul>
+</li>
+</ul>
+<h4 id="池化层"><a href="#池化层" class="headerlink" title="池化层"></a>池化层</h4><ul>
+<li><p>全局池化：针对输入所有值进行一次池化操作，不论是max、sum还是avg，都可以简单地看做是只需要对每个值算一次。</p>
+<ul>
+<li><p>Parameters：池化层没有可学习的参数，故参数量为0；</p>
+</li>
+<li><p>FLOPs：$H_{int}<em>W_{int}</em>C_{int}$</p>
+</li>
+</ul>
+</li>
+<li><p>一般池化（注意池化层的：$C_{out} = C_{int}$）</p>
+<ul>
+<li>Parameters：池化层没有可学习的参数，故参数量为0；-</li>
+<li>FLOPs：$k^2<em>H_{out}</em>W_{out}*C_{out}$</li>
+</ul>
+</li>
+</ul>
+<h4 id="全连接层"><a href="#全连接层" class="headerlink" title="全连接层"></a>全连接层</h4><ul>
+<li><p>Parameters：</p>
+<ul>
+<li>考虑bias：$（I+1）*O$</li>
+<li>不考虑bias：$I*O$</li>
+</ul>
+</li>
+<li><p>FLOPs：</p>
+<ul>
+<li>考虑bias：$(2<em>I)</em>O$</li>
+<li>不考虑bias：$(2<em>I-1)</em>O$</li>
+</ul>
+</li>
+<li><p>分析同理，括号内是一个输出神经元的计算量，拓展到O个输出神经元。</p>
+</li>
+<li><p><strong>如果该全连接层的输入是卷积层的输出，需要先将输出展开成一列向量：</strong></p>
+<p>例子： $H <em> W </em> D$  输出到 O，其中参数(包括bias)：$(H <em> W </em> D+1) * O$  </p>
+</li>
+</ul>
+<h4 id="激活层"><a href="#激活层" class="headerlink" title="激活层"></a>激活层</h4><ul>
+<li>Sigmoid：根据sigmoid的公式可以知道，每个输入都需要经历4次运算，因此计算量是$H<em>W</em>C*4$（参数含义同ReLU）</li>
+</ul>
+<script type="math/tex; mode=display">
+\sigma(x) = \frac{1}{1+e^{-x}}</script><ul>
+<li>Relu：Relu一般都是跟在卷积层的后面，这里假设卷积层的输出为$H<em>W</em>C$，因为ReLU函数的计算只涉及到一个判断，因此计算量就是$H<em>W</em>C$</li>
+</ul>
+<script type="math/tex; mode=display">
+\sigma(x) = max(0,x)</script></article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F/">参数量与计算量</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E7%94%A8%E5%8D%B7%E7%A7%AF%E6%80%BB%E7%BB%93/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230807/images.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">常用卷积总结</div></div></a></div><div class="next-post pull-right"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">常见代码实现</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/" title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-08</div><div class="title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Loss-in-Deep-Learning/" title="Loss_in_Deep_Learning"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230422/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-22</div><div class="title">Loss_in_Deep_Learning</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Metric-in-Semantic-Segmentation/" title="Metric_in_Semantic_Segmentation"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230326/head.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-25</div><div class="title">Metric_in_Semantic_Segmentation</div></div></a></div><div><a href="/人工只能/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/" title="SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers</div></div></a></div><div><a href="/人工只能/papers-ICCV/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div><div><a href="/人工只能/papers/TransFuse-Fusing-Transformers-and-CNNs-for-Medical-Image-Segmentation/" title="TransFuse:Fusing_Transformers_and_CNNs_for_Medical_Image_Segmentation"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211212/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">TransFuse:Fusing_Transformers_and_CNNs_for_Medical_Image_Segmentation</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E9%87%8F%EF%BC%88FLOPs%EF%BC%89%E5%92%8C%E5%8F%82%E6%95%B0%E9%87%8F%EF%BC%88Parameters%EF%BC%89"><span class="toc-number">1.</span> <span class="toc-text">计算量（FLOPs）和参数量（Parameters）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%87%E5%87%86%E5%8D%B7%E7%A7%AF%E5%B1%82"><span class="toc-number">1.1.</span> <span class="toc-text">标准卷积层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E5%8F%AF%E5%88%86%E7%A6%BB%E5%8D%B7%E7%A7%AF"><span class="toc-number">1.2.</span> <span class="toc-text">深度可分离卷积</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B1%A0%E5%8C%96%E5%B1%82"><span class="toc-number">1.3.</span> <span class="toc-text">池化层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%A8%E8%BF%9E%E6%8E%A5%E5%B1%82"><span class="toc-number">1.4.</span> <span class="toc-text">全连接层</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%BF%80%E6%B4%BB%E5%B1%82"><span class="toc-number">1.5.</span> <span class="toc-text">激活层</span></a></li></ol></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>

@@ -1,0 +1,258 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>常见代码实现 | sevenboy</title><meta name="keywords" content="mDice, Softmax, mIoU, Self-Attention"><meta name="author" content="sevenboy"><meta name="copyright" content="sevenboy"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="这是深度学习中的常用指标或者算法的的的简单实现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常见代码实现">
+<meta property="og:url" content="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="sevenboy">
+<meta property="og:description" content="这是深度学习中的常用指标或者算法的的的简单实现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image1.png">
+<meta property="article:published_time" content="2023-10-19T14:28:35.000Z">
+<meta property="article:modified_time" content="2023-10-19T14:35:06.948Z">
+<meta property="article:author" content="sevenboy">
+<meta property="article:tag" content="人工只能">
+<meta property="article:tag" content="代码实现">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image1.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"search.xml","languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '常见代码实现',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  postUpdate: '2023-10-19 22:35:06'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="author-avatar"><img class="avatar-img" src="/image/myself.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">文章</div><div class="length-num">29</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">标签</div><div class="length-num">33</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/categories/"><div class="headline">分类</div><div class="length-num">10</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image1.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">sevenboy</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 家</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于我</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">常见代码实现</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-10-19T14:28:35.000Z" title="发表于 2023-10-19 22:28:35">2023-10-19</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-10-19T14:35:06.948Z" title="更新于 2023-10-19 22:35:06">2023-10-19</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/">Prior Knowledge</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">1.4k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>7分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="常见代码实现"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h5 id="Softmax"><a href="#Softmax" class="headerlink" title="Softmax"></a>Softmax</h5><ul>
+<li><p>计算公式：</p>
+<script type="math/tex; mode=display">
+Softmax(X)_{ij} = \frac{exp(X_{ij})}{\sum_{k}exp(X_{ij})}</script></li>
+<li><p>计算过程：</p>
+<ul>
+<li>对每个项求幂（使用exp；<code>torch.exp()</code>）</li>
+<li>对每一行（某一维度）求最大值，并且该行（维度）的值减去最大值，否则求exp(x)可能会溢出，导致inf的情况；</li>
+<li>对每一行（某一维度）求和，得到每个样本的规范化常数。</li>
+<li>将每一行除以其规范化常数，确保结果的和为1。</li>
+</ul>
+</li>
+<li><p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"># numpy</span><br><span class="line">def softmax(x, axis=1):</span><br><span class="line">    # 计算每行的最大值</span><br><span class="line">    # row_max = x.max(axis=axis)</span><br><span class="line">    # row_max = np.expand_dims(row_max, axis=axis)</span><br><span class="line">    row_max = np.max(x, axis=axis, keepdims=True)</span><br><span class="line">    </span><br><span class="line">    # 每行元素都需要减去对应的最大值，否则求exp(x)会溢出，导致inf情况</span><br><span class="line">    x = x - row_max</span><br><span class="line">    # 计算e的指数次幂</span><br><span class="line">    x_exp = np.exp(x)</span><br><span class="line">    x_sum = np.sum(x_exp, axis=axis, keepdims=True)</span><br><span class="line">    s = x_exp / x_sum</span><br><span class="line">    return s</span><br><span class="line"></span><br><span class="line"># pytorch</span><br><span class="line">def softmax1(x, dim=1):</span><br><span class="line">    # 计算每行的最大值</span><br><span class="line">    # 1、不保留后恢复</span><br><span class="line">    # row_max, _ = torch.max(x, dim=dim);</span><br><span class="line">    # row_max = row_max.unsqueeze(dim) # 恢复一个为1维度，方便广播机制</span><br><span class="line">    # 2、保留维度</span><br><span class="line">    row_max, _ = torch.max(x, dim=dim, keepdims=True);</span><br><span class="line">    </span><br><span class="line">    # 每行元素都需要减去对应的最大值，否则求exp(x)会溢出，导致inf情况</span><br><span class="line">    x = x - row_max # 广播机制</span><br><span class="line">  # 计算e的指数次幂</span><br><span class="line">    x_exp = torch.exp(x)</span><br><span class="line">    x_sum = torch.sum(x_exp, dim=dim, keepdims=True)</span><br><span class="line">    s = x_exp / x_sum # 广播机制</span><br><span class="line">    return s</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="Sigmoid"><a href="#Sigmoid" class="headerlink" title="Sigmoid"></a>Sigmoid</h5><ul>
+<li><p>计算公式：</p>
+<script type="math/tex; mode=display">
+Sigmoid(X) = \frac{1}{1+e^{-X}}</script></li>
+<li><p>代码：直接套公式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># numpy</span><br><span class="line">def sigmoid(x):</span><br><span class="line">    return 1.0 / (1 + np.exp(-x))</span><br><span class="line">    </span><br><span class="line"># pytorch</span><br><span class="line">def sigmoid(x):</span><br><span class="line">    return 1.0 / (1 + torch.exp(-x))</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="CrossEntropy"><a href="#CrossEntropy" class="headerlink" title="CrossEntropy"></a>CrossEntropy</h5><ul>
+<li><p>计算公式：</p>
+<script type="math/tex; mode=display">
+Loss = -\frac{1}{N} \sum_{i=0}^{N-1}\sum_{k=0}^{K-1}\,y_{i,k}\,log\, p_{i,k}</script></li>
+<li><p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># y是one-hot编码</span><br><span class="line">def cross_entropy_error(p,y):</span><br><span class="line">    assert y.shape == p.shape # 判读shape是否一致</span><br><span class="line">    delta=1e-7       #添加一个微小值可以防止负无限大(np.log(0))的发生。</span><br><span class="line">    p = softmax(p)   # 通过 softmax 变为概率分布，并且sum(p) = 1</span><br><span class="line">    # return -np.sum( y * np.log(p+delta) )    多分类</span><br><span class="line">    # return -(y * np.log(p) + (1 - y) * np.log(1 - p))  二分类</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="mDice"><a href="#mDice" class="headerlink" title="mDice"></a>mDice</h5><ul>
+<li>计算公式：<script type="math/tex; mode=display">
+Dice = \frac{2 \times \left |  X \cap Y \right |}{\left | X \right | + \left | Y \right | } =            \frac{2 \times 预测正确的结果 }{ 真实结果 + 预测结果 } \qquad\qquad X是标签；Y是预测值</script></li>
+</ul>
+<ul>
+<li><p>代码实现：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># H*W</span><br><span class="line">def dice_coeff(pred, target):</span><br><span class="line">    smooth = 1.</span><br><span class="line">    num = pred.size(0)</span><br><span class="line">    m1 = pred.view(num, -1)  # Flatten </span><br><span class="line">    m2 = target.view(num, -1)  # Flatten</span><br><span class="line">    intersection = (m1 * m2).sum() # 计算交集</span><br><span class="line">    return (2. * intersection + smooth) / (m1.sum() + m2.sum() + smooth)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"># H*W</span><br><span class="line">def dice_coeff(input: Tensor, target: Tensor, reduce_batch_first: bool = False, epsilon=1e-6):</span><br><span class="line">    # Average of Dice coefficient for all batches, or for a single mask</span><br><span class="line">    assert input.size() == target.size()</span><br><span class="line">    if input.dim() == 2 and reduce_batch_first:</span><br><span class="line">        raise ValueError(f&#x27;Dice: asked to reduce batch </span><br><span class="line">        					but got tensor without batch dimension (shape &#123;input.shape&#125;)&#x27;)</span><br><span class="line"></span><br><span class="line">    if input.dim() == 2 or reduce_batch_first:</span><br><span class="line">        inter = torch.dot(input.reshape(-1), target.reshape(-1))</span><br><span class="line">        sets_sum = torch.sum(input) + torch.sum(target)</span><br><span class="line">        if sets_sum.item() == 0:</span><br><span class="line">            sets_sum = 2 * inter</span><br><span class="line">        return (2 * inter + epsilon) / (sets_sum + epsilon)</span><br><span class="line">    else:</span><br><span class="line">        # compute and average metric for each batch element</span><br><span class="line">        dice = 0</span><br><span class="line">        for i in range(input.shape[0]):</span><br><span class="line">            dice += dice_coeff(input[i, ...], target[i, ...])</span><br><span class="line">        return dice / input.shape[0]</span><br><span class="line"></span><br><span class="line">def multiclass_dice_coeff(input: Tensor, target: Tensor,</span><br><span class="line">						  reduce_batch_first: bool = False, epsilon=1e-6):</span><br><span class="line">    # Average of Dice coefficient for all classes</span><br><span class="line">    assert input.size() == target.size()</span><br><span class="line">    dice = 0</span><br><span class="line">    for channel in range(input.shape[1]):</span><br><span class="line">        dice += dice_coeff(input[:, channel, ...], target[:, channel, ...], </span><br><span class="line">        				   reduce_batch_first, epsilon)</span><br><span class="line"></span><br><span class="line">    return dice / input.shape[1]</span><br><span class="line"></span><br><span class="line">def dice_loss(input: Tensor, target: Tensor, multiclass: bool = False):</span><br><span class="line">	# 在调用的时候，groud-truth若是多类别，需要进行one-hot编码</span><br><span class="line">	# 【B,C,H,W】target and input</span><br><span class="line">    # Dice loss (objective to minimize) between 0 and 1</span><br><span class="line">    assert input.size() == target.size()</span><br><span class="line">    fn = multiclass_dice_coeff if multiclass else dice_coeff</span><br><span class="line">    return 1 - fn(input, target, reduce_batch_first=True)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="mIoU"><a href="#mIoU" class="headerlink" title="mIoU"></a>mIoU</h5><ul>
+<li><p>公式：简单来说就是： <strong>交集/并集</strong></p>
+<script type="math/tex; mode=display">
+mIoU = \frac{1}{k+1} \sum_{i=0}^{k} \frac{TP}{FN+FP+TP}</script></li>
+<li><p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"># 输入 pred，target 【B,H,W】</span><br><span class="line"># 第一种方式 比较合适我理解</span><br><span class="line">def iou_mean(pred, target, n_classes = 1):</span><br><span class="line">    # n_classes ：the number of classes in your dataset,not including background</span><br><span class="line">    # for mask and ground-truth label, not probability map</span><br><span class="line">    ious = [] #每个类别的 IoU</span><br><span class="line">    iousSum = 0</span><br><span class="line">    pred = pred.view(-1)</span><br><span class="line">    target = target.view(-1)</span><br><span class="line">    # Ignore IoU for background class (&quot;0&quot;)</span><br><span class="line">    for cls in range(1, n_classes+1):  </span><br><span class="line">      	pred_inds = pred == cls</span><br><span class="line">        target_inds = target == cls</span><br><span class="line">        # Cast to long to prevent overflows</span><br><span class="line">        intersection = (pred_inds[target_inds]).long().sum().data.cpu().item()  </span><br><span class="line">        union = pred_inds.long().sum().data.cpu().item() + </span><br><span class="line">        		target_inds.long().sum().data.cpu().item() - intersection</span><br><span class="line">        if union == 0:</span><br><span class="line">          ious.append(float(&#x27;nan&#x27;))  # If there is no ground truth, do not include in evaluation</span><br><span class="line">        else:</span><br><span class="line">          ious.append (float(intersection) / float(max(union, 1)))</span><br><span class="line">          iousSum += float(intersection) / float(max(union, 1))</span><br><span class="line">       </span><br><span class="line">      return iousSum/n_classes  # mIoU</span><br><span class="line">      </span><br><span class="line"># 第二种方式</span><br><span class="line"># &#x27;K&#x27; classes, output and target sizes are N or N * L or N * H * W, each value in range 0 to K - 1.</span><br><span class="line">def intersectionAndUnion(output, target, K, ignore_index=255):</span><br><span class="line">    assert output.ndim in [1, 2, 3]</span><br><span class="line">    assert output.shape == target.shape</span><br><span class="line">    output = output.reshape(output.size).copy()</span><br><span class="line">    target = target.reshape(target.size)</span><br><span class="line">    output[np.where(target == ignore_index)[0]] = ignore_index</span><br><span class="line">    intersection = output[np.where(output == target)[0]]</span><br><span class="line">    area_intersection, _ = np.histogram(intersection, bins=np.arange(K + 1))</span><br><span class="line">    area_output, _ = np.histogram(output, bins=np.arange(K + 1))</span><br><span class="line">    area_target, _ = np.histogram(target, bins=np.arange(K + 1))</span><br><span class="line">    area_union = area_output + area_target - area_intersection</span><br><span class="line">    </span><br><span class="line">    ious = area_intersection / area_union+epsilon  # 是一个array，代表每个类别的IoU</span><br><span class="line">    mIoU = np.nanmean(ious)  # mIoU</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h5 id="Self-Attention"><a href="#Self-Attention" class="headerlink" title="Self-Attention"></a>Self-Attention</h5><ul>
+<li><p>计算公式：</p>
+<script type="math/tex; mode=display">
+Attention(Q,K,V) = softmax(\frac{QK^T}{\sqrt{d_k}})V</script></li>
+<li><p>代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">impotr torch</span><br><span class="line">from torch import nn</span><br><span class="line">from torch.nn import functional as F</span><br><span class="line"></span><br><span class="line">class Attention(nn.Module):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    An attention layer that allows for downscaling the size of the embedding</span><br><span class="line">    after projection to queries, keys, and values.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    def __init__(</span><br><span class="line">        self,</span><br><span class="line">        embedding_dim: int,</span><br><span class="line">        num_heads: int,</span><br><span class="line">        downsample_rate: int = 1,</span><br><span class="line">        attn_drop_ratio=0.,</span><br><span class="line">    ):</span><br><span class="line">        super().__init__()</span><br><span class="line">        self.embedding_dim = embedding_dim</span><br><span class="line">        self.internal_dim = embedding_dim // downsample_rate</span><br><span class="line">        self.num_heads = num_heads</span><br><span class="line">        self.attn_drop = nn.Dropout(attn_drop_ratio)</span><br><span class="line">        assert self.internal_dim % num_heads == 0, &quot;num_heads must divide embedding_dim.&quot;</span><br><span class="line">        self.q_proj = nn.Linear(embedding_dim, self.internal_dim)</span><br><span class="line">        self.k_proj = nn.Linear(embedding_dim, self.internal_dim)</span><br><span class="line">        self.v_proj = nn.Linear(embedding_dim, self.internal_dim)</span><br><span class="line">        self.out_proj = nn.Linear(self.internal_dim, embedding_dim)</span><br><span class="line"></span><br><span class="line">    def forward(self, q, k, v): # [B,N,C]</span><br><span class="line">    </span><br><span class="line">        # Input projections</span><br><span class="line">        q = self.q_proj(q) # [B,N,C1]</span><br><span class="line">        k = self.k_proj(k)</span><br><span class="line">        v = self.v_proj(v)</span><br><span class="line"></span><br><span class="line">        # Separate into heads</span><br><span class="line">        b, n, c = q.shape</span><br><span class="line">        q = q.reshape(b, n, self.num_heads, c // self.num_heads).transpose(1, 2) # [B, N_heads, N_tokens, C_per_head]</span><br><span class="line">        k = k.reshape(b, n, self.num_heads, c // self.num_heads).transpose(1, 2) # [B, N_heads, N_tokens, C_per_head]</span><br><span class="line">        v = v.reshape(b, n, self.num_heads, c // self.num_heads).transpose(1, 2) # [B, N_heads, N_tokens, C_per_head]</span><br><span class="line">        </span><br><span class="line">        # Attention</span><br><span class="line">        _, _, _, c_per_head = q.shape</span><br><span class="line">        attn = q @ k.permute(0, 1, 3, 2)  # [B, N_heads, N_tokens, N_tokens]</span><br><span class="line">        attn = attn / math.sqrt(c_per_head)</span><br><span class="line">        attn = torch.softmax(attn, dim=-1)</span><br><span class="line">        attn = self.attn_drop(attn)</span><br><span class="line"></span><br><span class="line">        # Get output</span><br><span class="line">        out = attn @ v # [B, N_heads, N_tokens, C_per_head]</span><br><span class="line">        out = out.transpose(1, 2).reshape(b, n, self.num_heads * c_per_head)  # [B, N_tokens, C]</span><br><span class="line">      </span><br><span class="line">        out = self.out_proj(out)</span><br><span class="line">        return out</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">sevenboy</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/">https://sevenboy.online/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://sevenboy.online" target="_blank">sevenboy</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/">人工只能</a><a class="post-meta__tags" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0/">代码实现</a></div><div class="post_share"><div class="social-share" data-image="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%B8%B8%E8%A7%81%E6%A8%A1%E5%9D%97%E7%9A%84%E5%8F%82%E6%95%B0%E9%87%8F%E4%B8%8E%E8%AE%A1%E7%AE%97%E9%87%8F/"><img class="prev-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">常见模块的参数量与计算量</div></div></a></div><div class="next-post pull-right"><a href="/%E4%BA%BA%E5%B7%A5%E5%8F%AA%E8%83%BD/Prior-Knowledge/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%E7%AE%97%E6%B3%95%E6%80%BB%E7%BB%93/"><img class="next-cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230823/image1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">图像处理算法总结</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> 相关推荐</span></div><div class="relatedPosts-list"><div><a href="/人工只能/papers-ICCV/Few-shot-Semantic-Segmentation-with-Classifier-Weight-Transformer/" title="simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211108/9.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-11-08</div><div class="title">simpler-is-better:Few-shot_Semantic_Segmentation_with_Classifier_Weight_Transformer</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Loss-in-Deep-Learning/" title="Loss_in_Deep_Learning"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230422/1.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-04-22</div><div class="title">Loss_in_Deep_Learning</div></div></a></div><div><a href="/人工只能/Prior-Knowledge/Metric-in-Semantic-Segmentation/" title="Metric_in_Semantic_Segmentation"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20230326/head.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-25</div><div class="title">Metric_in_Semantic_Segmentation</div></div></a></div><div><a href="/人工只能/papers-CVPR/SETR-Rethinking-Semantic-Segmentation-from-a-Sequence-to-Sequence-Perspective-with-Transformers/" title="SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211203/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">SETR:Rethinking_Semantic_Segmentation_from_a_Sequence-to-Sequence_Perspective_with_Transformers</div></div></a></div><div><a href="/人工只能/papers-ICCV/SOTR-Segmenting-Objects-with-Transformers/" title="SOTR-Segmenting-Objects-with-Transformers"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211027/figure-1.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-10-27</div><div class="title">SOTR-Segmenting-Objects-with-Transformers</div></div></a></div><div><a href="/人工只能/papers/TransFuse-Fusing-Transformers-and-CNNs-for-Medical-Image-Segmentation/" title="TransFuse:Fusing_Transformers_and_CNNs_for_Medical_Image_Segmentation"><img class="cover" src="https://cdn.jsdelivr.net/gh/xiewende/blog_img/20211212/2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2021-12-03</div><div class="title">TransFuse:Fusing_Transformers_and_CNNs_for_Medical_Image_Segmentation</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-5"><a class="toc-link" href="#Softmax"><span class="toc-number">1.</span> <span class="toc-text">Softmax</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Sigmoid"><span class="toc-number">2.</span> <span class="toc-text">Sigmoid</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#CrossEntropy"><span class="toc-number">3.</span> <span class="toc-text">CrossEntropy</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mDice"><span class="toc-number">4.</span> <span class="toc-text">mDice</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#mIoU"><span class="toc-number">5.</span> <span class="toc-text">mIoU</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Self-Attention"><span class="toc-number">6.</span> <span class="toc-text">Self-Attention</span></a></li></ol></div></div></div></div></main><footer id="footer" style="background-image: url('https://cdn.jsdelivr.net/gh/xiewende/blog_img/20231019/image1.png')"><div id="footer-wrap"><div class="copyright">&copy;2021 - 2023 By sevenboy</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div><div class="footer_custom_text">this is a sunshine body</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><div class="search-dialog__title" id="local-search-title">本地搜索</div><div id="local-input-panel"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div></div><hr/><div id="local-search-results"></div><span class="search-close-button"><i class="fas fa-times"></i></span></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/medium-zoom/dist/medium-zoom.min.js"></script><script src="/js/search/local-search.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><script>if (!window.MathJax) {
+  window.MathJax = {
+    loader: {
+      source: {
+        '[tex]/amsCd': '[tex]/amscd'
+      }
+    },
+    tex: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"]],
+      tags: 'ams'
+    },
+    options: {
+      renderActions: {
+        findScript: [10, doc => {
+          for (const node of document.querySelectorAll('script[type^="math/tex"]')) {
+            const display = !!node.type.match(/; *mode=display/)
+            const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display)
+            const text = document.createTextNode('')
+            node.parentNode.replaceChild(text, node)
+            math.start = {node: text, delim: '', n: 0}
+            math.end = {node: text, delim: '', n: 0}
+            doc.math.push(math)
+          }
+        }, ''],
+        addClass: [200,() => {
+          document.querySelectorAll('mjx-container:not([display=\'true\']').forEach( node => {
+            const target = node.parentNode
+            if (!target.classList.contains('has-jax')) {
+              target.classList.add('mathjax-overflow')
+            }
+          })
+        }, '', false]
+      }
+    }
+  }
+  
+  const script = document.createElement('script')
+  script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'
+  script.id = 'MathJax-script'
+  script.async = true
+  document.head.appendChild(script)
+} else {
+  MathJax.startup.document.state(0)
+  MathJax.texReset()
+  MathJax.typeset()
+}</script></div><script src="https://cdn.jsdelivr.net/gh/lete114/CDN/Sum/sakura.js"></script><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="true" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/canvas-nest.min.js"></script><script id="click-show-text" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc@1/dist/click-show-text.min.js" data-mobile="false" data-text="阳光,向上,好学,积极,热爱,奋斗,拼搏,追求,奋发" data-fontsize="15px" data-random="false" async="async"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><script src="/live2dw/lib/L2Dwidget.min.js?094cbace49a39548bed64abff5988b05"></script><script>L2Dwidget.init({"model":{"jsonPath":"/live2dw/assets/haruto.model.json"},"display":{"position":"right","width":180,"height":330},"mobile":{"show":false},"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body></html>
